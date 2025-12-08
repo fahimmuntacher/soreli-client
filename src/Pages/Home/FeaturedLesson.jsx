@@ -150,7 +150,7 @@ const FeaturedLessons = () => {
                 </div>
 
                 {/* Interaction Buttons */}
-                <div className="flex items-center justify-between pt-4 px-8 pb-8 border-t border-white/10">
+                <div className="flex items-center justify-between pt-4 px-8 border-t border-white/10">
                   {/* Save to Favorites */}
                   <button
                     onClick={() => toggleFavorite(lesson.id)}
@@ -189,7 +189,7 @@ const FeaturedLessons = () => {
 
                 {/* Creator */}
                 <motion.div
-                  className="flex items-center gap-4 pt-6"
+                  className="flex items-center gap-4 pt-4"
                   initial={{ opacity: 0 }}
                   whileInView={{ opacity: 1 }}
                   viewport={{ once: true }}
