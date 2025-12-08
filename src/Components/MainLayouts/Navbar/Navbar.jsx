@@ -19,144 +19,90 @@ const Navbar = ({ user, handleLogout }) => {
   ];
 
   return (
-    <nav className="
-        fixed top-0 left-0 w-full z-50 
-        backdrop-blur-lg 
-        bg-white/40 dark:bg-gray-900/40 
-        border-b border-white/20 dark:border-gray-700/40
-      ">
+    <nav className="fixed top-0 left-0 w-full z-50 backdrop-blur-xl bg-white/10 dark:bg-gray-900/20 border-b border-white/20">
       <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-
         {/* Logo */}
         <motion.h1
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="
-            text-3xl font-extrabold tracking-tight 
-            bg-gradient-to-r from-indigo-500 to-blue-500 
-            text-transparent bg-clip-text 
-            cursor-pointer
-          "
+          className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 cursor-pointer"
         >
           SORELI
         </motion.h1>
 
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center gap-8">
-
           {navItems.map((item, i) => (
-            <motion.div key={i} initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.08 }}>
-              <Link
-                to={item.path}
-                className="
-                  relative font-medium text-gray-700 dark:text-gray-200 
-                  hover:text-indigo-500 transition
-                "
-              >
-                {item.name}
-                <span className="
-                    absolute left-0 -bottom-1 w-0 h-[2px] 
-                    bg-indigo-500 transition-all duration-300 
-                    group-hover:w-full
-                "></span>
-              </Link>
-            </motion.div>
+            <Link
+              key={i}
+              to={item.path}
+              className="font-medium text-white hover:text-yellow-400 transition"
+            >
+              {item.name}
+            </Link>
           ))}
 
-          {/* Private Links */}
           {user &&
             privateItems.map((item, i) => (
               <Link
                 key={i}
                 to={item.path}
-                className="
-                  relative font-medium text-gray-700 dark:text-gray-200 
-                  hover:text-indigo-500 transition
-                "
+                className="font-medium text-white hover:text-yellow-400 transition"
               >
                 {item.name}
               </Link>
-            ))
-          }
+            ))}
 
-          {/* Login / Signup */}
           {!user && (
             <div className="flex gap-4">
               <Link
                 to="/login"
-                className="
-                  px-4 py-2 rounded-xl 
-                  bg-indigo-500 text-white 
-                  shadow-md hover:bg-indigo-600 
-                  transition
-                "
+                className="px-4 py-2 rounded-lg bg-yellow-400 text-black font-semibold hover:bg-yellow-300 transition"
               >
                 Login
               </Link>
-
               <Link
                 to="/signup"
-                className="
-                  px-4 py-2 rounded-xl 
-                  border border-indigo-400 
-                  text-indigo-500 
-                  hover:bg-indigo-50 
-                  dark:hover:bg-gray-800 
-                  transition
-                "
+                className="px-4 py-2 rounded-lg border border-yellow-400 text-yellow-400 hover:bg-yellow-50 dark:hover:bg-gray-800"
               >
                 Signup
               </Link>
             </div>
           )}
 
-          {/* Avatar Dropdown */}
           {user && (
             <div className="relative">
               <img
                 src={user.photoURL || ""}
                 alt="User"
                 onClick={() => setDropdown(!dropdown)}
-                className="
-                  w-11 h-11 rounded-full 
-                  object-cover cursor-pointer 
-                  border-2 border-indigo-400
-                "
+                className="w-10 h-10 rounded-full object-cover cursor-pointer border-2 border-yellow-400"
               />
 
               {dropdown && (
                 <motion.div
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="
-                    absolute right-0 mt-3 w-52 
-                    bg-white dark:bg-gray-800 
-                    shadow-xl rounded-xl 
-                    p-4 border border-gray-200 dark:border-gray-700
-                  "
+                  className="absolute right-0 mt-3 w-48 bg-white/10 backdrop-blur-xl border border-white/20 shadow-lg rounded-lg p-4"
                 >
-                  <p className="text-sm font-semibold text-gray-700 dark:text-gray-200">
+                  <p className="text-sm font-semibold text-white">
                     {user.displayName}
                   </p>
-
-                  <hr className="my-3 border-gray-300 dark:border-gray-700" />
-
+                  <hr className="my-2 border-white/20" />
                   <Link
                     to="/profile"
-                    className="block py-2 hover:text-indigo-500"
+                    className="block py-2 hover:text-yellow-400"
                     onClick={() => setDropdown(false)}
                   >
                     Profile
                   </Link>
-
                   <Link
                     to="/dashboard"
-                    className="block py-2 hover:text-indigo-500"
+                    className="block py-2 hover:text-yellow-400"
                     onClick={() => setDropdown(false)}
                   >
                     Dashboard
                   </Link>
-
                   <button
                     onClick={handleLogout}
                     className="w-full text-left py-2 text-red-500 hover:text-red-600"
@@ -169,59 +115,53 @@ const Navbar = ({ user, handleLogout }) => {
           )}
         </div>
 
-        {/* Mobile Menu Button */}
-        <button onClick={() => setOpen(!open)} className="md:hidden text-gray-800 dark:text-gray-200">
-          {open ? <X size={30} /> : <Menu size={30} />}
+        {/* Mobile Menu */}
+        <button onClick={() => setOpen(!open)} className="md:hidden text-white">
+          {open ? <X size={28} /> : <Menu size={28} />}
         </button>
       </div>
 
-      {/* Mobile Menu */}
       {open && (
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="
-            md:hidden 
-            bg-white/60 dark:bg-gray-900/60 
-            backdrop-blur-xl 
-            p-6 space-y-5
-          "
-        >
+        <div className="md:hidden bg-white/10 dark:bg-gray-900/20 backdrop-blur-xl p-6 space-y-4">
           {navItems.map((item) => (
             <Link
               key={item.path}
               to={item.path}
-              className="block text-lg font-medium"
+              className="block text-lg font-medium text-white"
               onClick={() => setOpen(false)}
             >
               {item.name}
             </Link>
           ))}
-
           {user &&
             privateItems.map((item) => (
               <Link
                 key={item.path}
                 to={item.path}
-                className="block text-lg"
+                className="block text-lg text-white"
                 onClick={() => setOpen(false)}
               >
                 {item.name}
               </Link>
-            ))
-          }
-
+            ))}
           {!user && (
             <>
-              <Link to="/login" className="block text-lg" onClick={() => setOpen(false)}>
+              <Link
+                to="/login"
+                className="block text-lg font-medium text-white"
+                onClick={() => setOpen(false)}
+              >
                 Login
               </Link>
-              <Link to="/signup" className="block text-lg" onClick={() => setOpen(false)}>
+              <Link
+                to="/signup"
+                className="block text-lg font-medium text-white"
+                onClick={() => setOpen(false)}
+              >
                 Signup
               </Link>
             </>
           )}
-
           {user && (
             <button
               onClick={() => {
@@ -233,7 +173,7 @@ const Navbar = ({ user, handleLogout }) => {
               Logout
             </button>
           )}
-        </motion.div>
+        </div>
       )}
     </nav>
   );
