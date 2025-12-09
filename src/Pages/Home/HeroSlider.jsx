@@ -58,7 +58,7 @@ const HeroSlider = () => {
           {slides.map((slide) => (
             <div
               key={slide.id}
-              className="flex-shrink-0 w-full h-full flex items-center justify-center px-4 md:px-8"
+              className="shrink-0 w-full h-full flex items-center justify-center px-5"
             >
               <motion.div
                 initial={{ opacity: 0, y: 50 }}

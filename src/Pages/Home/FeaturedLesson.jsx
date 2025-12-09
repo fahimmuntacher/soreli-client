@@ -58,7 +58,7 @@ const FeaturedLessons = () => {
 
   return (
     <section className="py-20">
-      <div className="max-w-7xl mx-auto px-6 md:px-8">
+      <div className="max-w-7xl mx-auto px-5">
         {/* Title */}
         <div className="text-center mb-16">
           <h2 className="text-4xl font-extrabold text-gray-900 dark:text-white tracking-tight">
@@ -189,7 +189,7 @@ const FeaturedLessons = () => {
 
                 {/* Creator */}
                 <motion.div
-                  className="flex items-center gap-4 pt-4"
+                  className="flex items-center gap-4 pt-4 "
                   initial={{ opacity: 0 }}
                   whileInView={{ opacity: 1 }}
                   viewport={{ once: true }}

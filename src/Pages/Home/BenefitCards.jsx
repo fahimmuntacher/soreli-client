@@ -1,5 +1,3 @@
-
-
 import React from "react";
 import { motion } from "framer-motion";
 
@@ -36,7 +34,7 @@ const benefits = [
 
 const BenefitCards = () => {
   return (
-    <section className="max-w-7xl mx-auto py-20">
+    <section className="max-w-7xl mx-auto py-20 px-5">
       {/* Section Header */}
       <div className="text-center mb-16">
         <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
@@ -58,7 +56,7 @@ const BenefitCards = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{
-              duration: 0.7,
+              duration: 0.3,
               delay: index * 0.15,
               ease: "easeOut",
             }}

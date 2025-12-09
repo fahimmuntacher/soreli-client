@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { Link } from "react-router";
+import Logo from "../../Logo/Logo";
 
 const Navbar = ({ user, handleLogout }) => {
   const [open, setOpen] = useState(false);
@@ -22,13 +23,7 @@ const Navbar = ({ user, handleLogout }) => {
     <nav className="fixed top-0 left-0 w-full z-50 backdrop-blur-xl bg-white/10 dark:bg-gray-900/20 border-b border-white/20">
       <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
         {/* Logo */}
-        <motion.h1
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 cursor-pointer"
-        >
-          SORELI
-        </motion.h1>
+        <Logo size="md"></Logo>
 
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center gap-8">

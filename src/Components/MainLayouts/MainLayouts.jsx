@@ -6,7 +6,7 @@ import { Outlet } from "react-router";
 
 const MainLayout = () => {
   return (
-    <div className="relative min-h-screen flex flex-col bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 dark:from-gray-900 dark:via-gray-800 dark:to-gray-700 overflow-hidden">
+    <div className="relative min-h-screen flex flex-col bg-linear-to-br from-indigo-500 via-purple-500 to-pink-500 dark:from-gray-900 dark:via-gray-800 dark:to-gray-700 overflow-hidden">
       
       {/* Floating Background Elements */}
       <div className="absolute inset-0 pointer-events-none">
