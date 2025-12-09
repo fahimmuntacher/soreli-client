@@ -8,7 +8,8 @@ import {
   BookOpen,
   Sparkles,
 } from "lucide-react";
-import Logo from "../../Logo/Logo";
+import Logo from "../../../Logo/Logo";
+
 
 const floatingIcons = [
   { icon: BookOpen, size: 60, x: "10%", y: "20%" },

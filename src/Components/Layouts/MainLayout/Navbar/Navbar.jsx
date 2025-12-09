@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { Link } from "react-router";
-import Logo from "../../Logo/Logo";
+import Logo from "../../../Logo/Logo";
+
 
 const Navbar = ({ user, handleLogout }) => {
   const [open, setOpen] = useState(false);
@@ -23,8 +24,7 @@ const Navbar = ({ user, handleLogout }) => {
     <nav className="fixed top-0 left-0 w-full z-50 backdrop-blur-xl bg-white/10 dark:bg-gray-900/20 border-b border-white/20">
       <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
         {/* Logo */}
-        <Logo size="md"></Logo>
-
+        <Logo size="md" showText={true} />
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center gap-8">
           {navItems.map((item, i) => (
@@ -51,7 +51,7 @@ const Navbar = ({ user, handleLogout }) => {
           {!user && (
             <div className="flex gap-4">
               <Link
-                to="/login"
+                to="/signin"
                 className="px-4 py-2 rounded-lg bg-yellow-400 text-black font-semibold hover:bg-yellow-300 transition"
               >
                 Login

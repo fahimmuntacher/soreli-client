@@ -4,6 +4,7 @@ import FeaturedLessons from "./FeaturedLesson";
 import BenefitCards from "./BenefitCards";
 import { Helmet } from "react-helmet";
 
+
 const Home = () => {
   return (
     <>
@@ -25,6 +26,7 @@ const Home = () => {
         <HeroSlider />
         <FeaturedLessons />
         <BenefitCards />
+        
       </div>
     </>
   );

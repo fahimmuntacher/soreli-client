@@ -1,8 +1,8 @@
 import './App.css'
-import MainLayouts from './Components/MainLayouts/MainLayouts'
+import MainLayout from './Components/Layouts/MainLayout/MainLayouts'
 function App() {
   return (
-    <MainLayouts></MainLayouts>
+    <MainLayout></MainLayout>
   )
 }
 

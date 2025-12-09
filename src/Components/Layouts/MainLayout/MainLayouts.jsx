@@ -1,8 +1,9 @@
 // MainLayout.jsx
 import React from "react";
+
+import { Outlet } from "react-router";
 import Navbar from "./Navbar/Navbar";
 import Footer from "./Footer/Footer";
-import { Outlet } from "react-router";
 
 const MainLayout = () => {
   return (
@@ -22,7 +23,7 @@ const MainLayout = () => {
         <Outlet />
       </main>
 
-      <Footer />
+      <Footer></Footer>
     </div>
   );
 };
