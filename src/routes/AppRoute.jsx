@@ -63,14 +63,14 @@ const AppRoute = createBrowserRouter([
       // ====================
       // USER DASHBOARD ROUTES
       // ====================
-      { index: true, element: <UserDashBoardHome></UserDashBoardHome> },
+      { path: "user", element: <UserDashBoardHome></UserDashBoardHome> },
       { path: "add-lesson", element: <AddLesson></AddLesson> },
       { path: "my-lessons", element:  <MyLesson></MyLesson> },
       { path: "my-favorites", element: <MyFavorites></MyFavorites>},
       { path: "profile", element: <UserProfile></UserProfile> },
 
       // ====================
-      // UPDATE LESSON (Private page)
+      // UPDATE LESSON 
       // ====================
       { path: "update-lesson/:id", element: <UpdateLesson></UpdateLesson> },
 

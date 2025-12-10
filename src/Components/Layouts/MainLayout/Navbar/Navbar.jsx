@@ -33,6 +33,9 @@ const Navbar = () => {
   // ----------------------
   // REUSABLE NAV ITEMS
   // ----------------------
+
+  
+
   const navItems = [
     { name: "Home", path: "/" },
     { name: "Public Lessons", path: "/lessons" },
@@ -44,32 +47,74 @@ const Navbar = () => {
     { name: "Pricing / Upgrade", path: "/pricing" },
   ];
 
+  // USER MENU
+  const userMenu = (
+    <>
+      <NavLink to="/dashboard/user" >
+        <Home size={18} /> Dashboard Home
+      </NavLink>
+
+      <NavLink to="/dashboard/add-lesson" >
+        <BookOpen size={18} /> Add Lesson
+      </NavLink>
+
+      <NavLink to="/dashboard/my-lessons" >
+        <BookOpen size={18} /> My Lessons
+      </NavLink>
+
+      <NavLink to="/dashboard/my-favorites" >
+        <Heart size={18} /> My Favorites
+      </NavLink>
+
+      <NavLink to="/dashboard/profile" >
+        <User size={18} /> Profile
+      </NavLink>
+    </>
+  );
+
+  // ADMIN MENU
+  const adminMenu = (
+    <>
+      <NavLink to="/dashboard/admin" >
+        <ShieldCheck size={18} /> Admin Home
+      </NavLink>
+
+      <NavLink to="/dashboard/admin/manage-users" className={navClasses}>
+        <Users size={18} /> Manage Users
+      </NavLink>
+
+      <NavLink to="/dashboard/admin/manage-lessons" >
+        <BookOpen size={18} /> Manage Lessons
+      </NavLink>
+
+      <NavLink to="/dashboard/admin/reported-lessons" >
+        <AlertTriangle size={18} /> Reported Lessons
+      </NavLink>
+
+      <NavLink to="/dashboard/admin/profile" >
+        <User size={18} /> Admin Profile
+      </NavLink>
+    </>
+  );
+
   // ----------------------
   // ACTIVE CLASS HANDLER
   // ----------------------
   const linkClasses = ({ isActive }) =>
     `font-medium transition ${
-      isActive
-        ? "text-yellow-400"
-        : "text-white hover:text-yellow-400"
+      isActive ? "text-yellow-400" : "text-white hover:text-yellow-400"
     }`;
 
   return (
     <nav className="fixed top-0 left-0 w-full z-50 bg-white/10 dark:bg-gray-900/20 backdrop-blur-xl border-b border-white/20">
       <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-        
         <Logo size="md" showText={true} />
 
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center gap-8">
-
           {/* Public Items */}
           {navItems.map((item) => (
-            <NavLink
-              key={item.path}
-              to={item.path}
-              className={linkClasses}
-            >
+            <NavLink key={item.path} to={item.path} className={linkClasses}>
               {item.name}
             </NavLink>
           ))}
@@ -77,11 +122,7 @@ const Navbar = () => {
           {/* Private Items */}
           {user &&
             privateItems.map((item) => (
-              <NavLink
-                key={item.path}
-                to={item.path}
-                className={linkClasses}
-              >
+              <NavLink key={item.path} to={item.path} className={linkClasses}>
                 {item.name}
               </NavLink>
             ))}
@@ -135,20 +176,16 @@ const Navbar = () => {
                     exit={{ opacity: 0, y: -10 }}
                     className="absolute right-0 mt-3 w-52 text-white bg-white/60 dark:bg-gray-900/70 backdrop-blur-xl shadow-lg border border-white/20 p-4 rounded-lg flex flex-col"
                   >
-                    <p className="text-sm font-semibold mb-2">{user.displayName}</p>
+                    <p className="text-sm font-semibold mb-2">
+                      {user.displayName}
+                    </p>
                     <hr className="border-white/30 mb-2" />
 
-                    <NavLink
-                      to="/dashboard/my-profile"
-                      className={linkClasses}
-                    >
+                    <NavLink to="/dashboard/my-profile" className={linkClasses}>
                       Profile
                     </NavLink>
 
-                    <NavLink
-                      to="/dashboard"
-                      className={linkClasses}
-                    >
+                    <NavLink to="/dashboard" className={linkClasses}>
                       Dashboard
                     </NavLink>
 
@@ -172,29 +209,19 @@ const Navbar = () => {
       </div>
 
       {/* Mobile Drawer */}
+      {/* Mobile Drawer */}
       <AnimatePresence>
         {open && (
           <motion.div
             initial={{ opacity: 0, y: -30 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -30 }}
-            className="md:hidden px-6 py-6 bg-white/10 dark:bg-gray-900/20 backdrop-blur-xl border-t border-white/20 space-y-4"
+            className="md:hidden px-6 py-6 bg-white/10 dark:bg-gray-900/20 backdrop-blur-xl 
+      border-t border-white/20 space-y-4"
           >
-            {/* Public */}
-            {navItems.map((item) => (
-              <NavLink
-                key={item.path}
-                to={item.path}
-                onClick={() => setOpen(false)}
-                className={linkClasses}
-              >
-                {item.name}
-              </NavLink>
-            ))}
-
-            {/* Private */}
-            {user &&
-              privateItems.map((item) => (
+            {/* Public Items */}
+            <div className="flex flex-col gap-3">
+              {navItems.map((item) => (
                 <NavLink
                   key={item.path}
                   to={item.path}
@@ -204,11 +231,28 @@ const Navbar = () => {
                   {item.name}
                 </NavLink>
               ))}
+            </div>
 
-            {/* Mobile user info */}
+            {/* Private Items */}
             {user && (
-              <div className="mt-4">
-                <div className="flex items-center gap-3 mb-3">
+              <div className="flex flex-col gap-3 mt-4">
+                {privateItems.map((item) => (
+                  <NavLink
+                    key={item.path}
+                    to={item.path}
+                    onClick={() => setOpen(false)}
+                    className={linkClasses}
+                  >
+                    {item.name}
+                  </NavLink>
+                ))}
+              </div>
+            )}
+
+            {/* Mobile User Profile */}
+            {user && (
+              <div className="mt-6 p-4 bg-white/10 dark:bg-gray-800/30 rounded-xl border border-white/20">
+                <div className="flex items-center gap-3 mb-4">
                   <img
                     src={user.photoURL}
                     className="w-12 h-12 rounded-full border-2 border-yellow-400"
@@ -230,29 +274,33 @@ const Navbar = () => {
                     handleSignOut();
                     setOpen(false);
                   }}
-                  className="w-full py-2 mt-3 text-red-400 border border-red-500/40 rounded-xl font-semibold"
+                  className="w-full mt-4 py-2 text-red-400 border border-red-500/40 
+            rounded-lg font-semibold hover:bg-red-500/10 transition"
                 >
                   Logout
                 </button>
               </div>
             )}
 
-            {/* Login & signup */}
+            {/* Login + Signup (When Logged Out) */}
             {!user && (
-              <>
+              <div className="flex flex-col gap-3 mt-4">
                 <NavLink
                   to="/signin"
+                  onClick={() => setOpen(false)}
                   className={linkClasses}
                 >
                   Login
                 </NavLink>
+
                 <NavLink
                   to="/signup"
+                  onClick={() => setOpen(false)}
                   className={linkClasses}
                 >
                   Signup
                 </NavLink>
-              </>
+              </div>
             )}
           </motion.div>
         )}

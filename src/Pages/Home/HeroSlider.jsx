@@ -51,7 +51,7 @@ const HeroSlider = () => {
   }, [emblaApi, onSelect]);
 
   return (
-    <div className="relative w-full h-[80vh] overflow-hidden flex justify-center items-cente">
+    <div className="relative w-full h-[90vh] sm:h-[80vh] overflow-hidden flex justify-center items-cente sm:pt-0 pt-15">
       {/* Embla viewport */}
       <div className="h-[80vh] w-full max-w-7xl mx-auto overflow-hidden" ref={emblaRef}>
         <div className="flex h-full">
@@ -64,7 +64,7 @@ const HeroSlider = () => {
                 initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1 }}
-                className={`flex flex-col md:flex-row items-center justify-between w-full bg-gradient-to-br ${slide.gradient} p-8 md:p-12 rounded-3xl shadow-2xl backdrop-blur-xl border border-white/10`}
+                className={`flex flex-col md:flex-row items-center justify-between w-full bg-linear-to-br ${slide.gradient} p-8 md:p-12 rounded-3xl shadow-2xl backdrop-blur-xl border border-white/10`}
               >
                 {/* Left text */}
                 <div className="md:w-1/2 mb-8 md:mb-0">
