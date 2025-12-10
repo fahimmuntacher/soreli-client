@@ -90,7 +90,6 @@ const Signup = () => {
       });
 
     reset();
-    // handle signup logic here
   };
 
   return (

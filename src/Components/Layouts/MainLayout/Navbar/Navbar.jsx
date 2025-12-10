@@ -134,7 +134,7 @@ const Navbar = () => {
                   }`
                 }
               >
-                Login
+                Sign In
               </NavLink>
 
               <NavLink
@@ -297,7 +297,7 @@ const Navbar = () => {
                   onClick={() => setOpen(false)}
                   className={linkClasses}
                 >
-                  Login
+                  Sign In
                 </NavLink>
 
                 <NavLink
