@@ -21,6 +21,8 @@ import ReportedLessons from "../Pages/Dashboard/Admin/ReportedLessons/ReportedLe
 import AdminProfile from "../Pages/Dashboard/Admin/AdminProfile/AdminProfile";
 import AdminRoutes from "./AdminRoute/AdminRoute";
 import PrivateRoute from "./PrivateRoute/PrivateRoute";
+import PublicLessons from "../Pages/Lessons/PublicLessons/PublicLessons";
+import UserRoutes from "./UserRoute/UserRoute";
 
 const AppRoute = createBrowserRouter([
   // -----------------------------------------
@@ -33,6 +35,10 @@ const AppRoute = createBrowserRouter([
       {
         index: true,
         element: <Home></Home>,
+      },
+      {
+        path: "/public-lessons",
+        element: <PublicLessons></PublicLessons>,
       },
     ],
   },
@@ -60,30 +66,69 @@ const AppRoute = createBrowserRouter([
   // -------------------------------------
   {
     path: "/dashboard",
-    element: <PrivateRoute><DashboadLayout></DashboadLayout></PrivateRoute>,
+    element: (
+      <PrivateRoute>
+        <DashboadLayout></DashboadLayout>
+      </PrivateRoute>
+    ),
     children: [
       // ====================
       // USER DASHBOARD ROUTES
       // ====================
-      { path: "user", element: <UserDashBoardHome></UserDashBoardHome> },
-      { path: "add-lesson", element: <AddLesson></AddLesson> },
-      { path: "my-lessons", element:  <MyLesson></MyLesson> },
-      { path: "my-favorites", element: <MyFavorites></MyFavorites>},
-      { path: "profile", element: <UserProfile></UserProfile> },
+      { path: "user", element: <UserRoutes><UserDashBoardHome></UserDashBoardHome></UserRoutes> },
+      { path: "add-lesson", element: <UserRoutes><AddLesson></AddLesson></UserRoutes> },
+      { path: "my-lessons", element: <UserRoutes><MyLesson></MyLesson></UserRoutes> },
+      { path: "my-favorites", element: <UserRoutes><MyFavorites></MyFavorites></UserRoutes> },
+      { path: "profile", element: <UserRoutes><UserProfile></UserProfile></UserRoutes> },
 
       // ====================
-      // UPDATE LESSON 
+      // UPDATE LESSON
       // ====================
       { path: "update-lesson/:id", element: <UpdateLesson></UpdateLesson> },
 
       // ====================
       // ADMIN DASHBOARD ROUTES
       // ====================
-      { path: "admin", element: <AdminRoutes><AdminDashboardHome></AdminDashboardHome></AdminRoutes> },
-      { path: "admin/manage-users", element: <AdminRoutes><ManageUsers></ManageUsers></AdminRoutes> },
-      { path: "admin/manage-lessons", element: <AdminRoutes><ManageLessons></ManageLessons></AdminRoutes> },
-      { path: "admin/reported-lessons", element: <AdminRoutes><ReportedLessons></ReportedLessons></AdminRoutes> },
-      { path: "admin/profile", element: <AdminRoutes><AdminProfile></AdminProfile></AdminRoutes> },
+      {
+        path: "admin",
+        element: (
+          <AdminRoutes>
+            <AdminDashboardHome></AdminDashboardHome>
+          </AdminRoutes>
+        ),
+      },
+      {
+        path: "admin/manage-users",
+        element: (
+          <AdminRoutes>
+            <ManageUsers></ManageUsers>
+          </AdminRoutes>
+        ),
+      },
+      {
+        path: "admin/manage-lessons",
+        element: (
+          <AdminRoutes>
+            <ManageLessons></ManageLessons>
+          </AdminRoutes>
+        ),
+      },
+      {
+        path: "admin/reported-lessons",
+        element: (
+          <AdminRoutes>
+            <ReportedLessons></ReportedLessons>
+          </AdminRoutes>
+        ),
+      },
+      {
+        path: "admin/profile",
+        element: (
+          <AdminRoutes>
+            <AdminProfile></AdminProfile>
+          </AdminRoutes>
+        ),
+      },
     ],
   },
 ]);
