@@ -1,6 +1,14 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import {
+  AlertTriangle,
+  BookOpen,
+  Heart,
+  Home,
+  HomeIcon,
+  Menu,
+  X,
+} from "lucide-react";
 import { NavLink } from "react-router";
 import Logo from "../../../Logo/Logo";
 import useAuth from "../../../../Hooks/UseAuth";
@@ -34,68 +42,47 @@ const Navbar = () => {
   // REUSABLE NAV ITEMS
   // ----------------------
 
-  
-
   const navItems = [
     { name: "Home", path: "/" },
     { name: "Public Lessons", path: "/lessons" },
   ];
 
-  const privateItems = [
+  const userMenu = [
     { name: "Add Lesson", path: "/dashboard/add-lesson" },
     { name: "My Lessons", path: "/dashboard/my-lessons" },
     { name: "Pricing / Upgrade", path: "/pricing" },
   ];
 
   // USER MENU
-  const userMenu = (
-    <>
-      <NavLink to="/dashboard/user" >
-        <Home size={18} /> Dashboard Home
-      </NavLink>
+  // const userMenu = (
+  //   <>
+  //     <NavLink to="/dashboard/user">
+  //       <HomeIcon size={18} /> Dashboard Home
+  //     </NavLink>
 
-      <NavLink to="/dashboard/add-lesson" >
-        <BookOpen size={18} /> Add Lesson
-      </NavLink>
+  //     <NavLink to="/dashboard/add-lesson">
+  //       <BookOpen size={18} /> Add Lesson
+  //     </NavLink>
 
-      <NavLink to="/dashboard/my-lessons" >
-        <BookOpen size={18} /> My Lessons
-      </NavLink>
-
-      <NavLink to="/dashboard/my-favorites" >
-        <Heart size={18} /> My Favorites
-      </NavLink>
-
-      <NavLink to="/dashboard/profile" >
-        <User size={18} /> Profile
-      </NavLink>
-    </>
-  );
+  //     <NavLink to="/dashboard/my-lessons">
+  //       <BookOpen size={18} /> My Lessons
+  //     </NavLink>
+  //   </>
+  // );
 
   // ADMIN MENU
-  const adminMenu = (
-    <>
-      <NavLink to="/dashboard/admin" >
-        <ShieldCheck size={18} /> Admin Home
-      </NavLink>
+  const adminMenu = [
+    { name: "Manage Lessons", path: "/dashboard/admin/manage-lessons" },
+    { name: "Reported Lessons", path: "/dashboard/admin/reported-lessons" },
+  ];
 
-      <NavLink to="/dashboard/admin/manage-users" className={navClasses}>
-        <Users size={18} /> Manage Users
-      </NavLink>
+  // const adminMenu = (
+  //   <>
+  //     <NavLink to="/dashboard/admin/manage-lessons">Manage Lessons</NavLink>
 
-      <NavLink to="/dashboard/admin/manage-lessons" >
-        <BookOpen size={18} /> Manage Lessons
-      </NavLink>
-
-      <NavLink to="/dashboard/admin/reported-lessons" >
-        <AlertTriangle size={18} /> Reported Lessons
-      </NavLink>
-
-      <NavLink to="/dashboard/admin/profile" >
-        <User size={18} /> Admin Profile
-      </NavLink>
-    </>
-  );
+  //     <NavLink to="/dashboard/admin/reported-lessons">Reported Lessons</NavLink>
+  //   </>
+  // );
 
   // ----------------------
   // ACTIVE CLASS HANDLER
@@ -119,9 +106,16 @@ const Navbar = () => {
             </NavLink>
           ))}
 
-          {/* Private Items */}
-          {user &&
-            privateItems.map((item) => (
+          {/* admin Items */}
+          {role === "admin" &&
+            adminMenu.map((item) => (
+              <NavLink key={item.path} to={item.path} className={linkClasses}>
+                {item.name}
+              </NavLink>
+            ))}
+            {/* user */}
+          {role === "user" &&
+            userMenu.map((item) => (
               <NavLink key={item.path} to={item.path} className={linkClasses}>
                 {item.name}
               </NavLink>
@@ -181,11 +175,11 @@ const Navbar = () => {
                     </p>
                     <hr className="border-white/30 mb-2" />
 
-                    <NavLink to="/dashboard/my-profile" className={linkClasses}>
+                    <NavLink to={role === "admin" ? "/dashboard/admin/profile" : "/dashboard/profile"} className={linkClasses}>
                       Profile
                     </NavLink>
 
-                    <NavLink to="/dashboard" className={linkClasses}>
+                    <NavLink to={role === "admin" ? "/dashboard/admin" : "/dashboard/user"} className={linkClasses}>
                       Dashboard
                     </NavLink>
 
@@ -208,7 +202,7 @@ const Navbar = () => {
         </button>
       </div>
 
-      {/* Mobile Drawer */}
+
       {/* Mobile Drawer */}
       <AnimatePresence>
         {open && (
@@ -233,21 +227,20 @@ const Navbar = () => {
               ))}
             </div>
 
-            {/* Private Items */}
-            {user && (
-              <div className="flex flex-col gap-3 mt-4">
-                {privateItems.map((item) => (
-                  <NavLink
-                    key={item.path}
-                    to={item.path}
-                    onClick={() => setOpen(false)}
-                    className={linkClasses}
-                  >
-                    {item.name}
-                  </NavLink>
-                ))}
-              </div>
-            )}
+           {/* admin Items */}
+          {role === "admin" &&
+            adminMenu.map((item) => (
+              <NavLink key={item.path} to={item.path} className={linkClasses}>
+                {item.name}
+              </NavLink>
+            ))}
+            {/* user */}
+          {role === "user" &&
+            userMenu.map((item) => (
+              <NavLink key={item.path} to={item.path} className={linkClasses}>
+                {item.name}
+              </NavLink>
+            ))}
 
             {/* Mobile User Profile */}
             {user && (
@@ -262,7 +255,7 @@ const Navbar = () => {
                 </div>
 
                 <NavLink
-                  to="/dashboard"
+                  to={role === "user" ? "/dashboard/user" : "/dashboard/admin"}
                   onClick={() => setOpen(false)}
                   className={linkClasses}
                 >
