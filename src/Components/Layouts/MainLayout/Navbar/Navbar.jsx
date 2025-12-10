@@ -88,7 +88,7 @@ const Navbar = () => {
   // ACTIVE CLASS HANDLER
   // ----------------------
   const linkClasses = ({ isActive }) =>
-    `font-medium transition ${
+    `font-medium transition flex flex-col ${
       isActive ? "text-yellow-400" : "text-white hover:text-yellow-400"
     }`;
 
@@ -234,6 +234,7 @@ const Navbar = () => {
                 {item.name}
               </NavLink>
             ))}
+
             {/* user */}
           {role === "user" &&
             userMenu.map((item) => (

@@ -1,0 +1,29 @@
+import React from "react";
+
+import { Navigate, useLocation } from "react-router";
+import useAuth from "../../Hooks/UseAuth";
+import useRole from "../../Hooks/useRole";
+import Loading from "../../Components/Loading/Loading";
+import Forbidden from "../../Components/Forbidden/Forbidden";
+
+
+const AdminRoutes = ({children}) => {
+  const { user, loading } = useAuth();
+  const { role, roleLoading } = useRole();
+  const location = useLocation()
+
+  if (loading || roleLoading) {
+    return <Loading></Loading>;
+  }
+
+ if (!user) {
+    return <Navigate to="/registration" state={{ from: location }} replace />;
+  }
+
+   if (role !== "admin") {
+    return <Forbidden></Forbidden>;
+  }
+  return children;
+};
+
+export default AdminRoutes;

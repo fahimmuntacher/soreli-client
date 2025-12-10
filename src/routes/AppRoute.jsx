@@ -19,6 +19,8 @@ import ManageUsers from "../Pages/Dashboard/Admin/ManageUsers/ManageUsers";
 import ManageLessons from "../Pages/Dashboard/Admin/ManageLessons/ManageLessons";
 import ReportedLessons from "../Pages/Dashboard/Admin/ReportedLessons/ReportedLessons";
 import AdminProfile from "../Pages/Dashboard/Admin/AdminProfile/AdminProfile";
+import AdminRoutes from "./AdminRoute/AdminRoute";
+import PrivateRoute from "./PrivateRoute/PrivateRoute";
 
 const AppRoute = createBrowserRouter([
   // -----------------------------------------
@@ -58,7 +60,7 @@ const AppRoute = createBrowserRouter([
   // -------------------------------------
   {
     path: "/dashboard",
-    element: <DashboadLayout></DashboadLayout>,
+    element: <PrivateRoute><DashboadLayout></DashboadLayout></PrivateRoute>,
     children: [
       // ====================
       // USER DASHBOARD ROUTES
@@ -77,11 +79,11 @@ const AppRoute = createBrowserRouter([
       // ====================
       // ADMIN DASHBOARD ROUTES
       // ====================
-      { path: "admin", element: <AdminDashboardHome></AdminDashboardHome> },
-      { path: "admin/manage-users", element: <ManageUsers></ManageUsers> },
-      { path: "admin/manage-lessons", element: <ManageLessons></ManageLessons> },
-      { path: "admin/reported-lessons", element: <ReportedLessons></ReportedLessons> },
-      { path: "admin/profile", element: <AdminProfile></AdminProfile> },
+      { path: "admin", element: <AdminRoutes><AdminDashboardHome></AdminDashboardHome></AdminRoutes> },
+      { path: "admin/manage-users", element: <AdminRoutes><ManageUsers></ManageUsers></AdminRoutes> },
+      { path: "admin/manage-lessons", element: <AdminRoutes><ManageLessons></ManageLessons></AdminRoutes> },
+      { path: "admin/reported-lessons", element: <AdminRoutes><ReportedLessons></ReportedLessons></AdminRoutes> },
+      { path: "admin/profile", element: <AdminRoutes><AdminProfile></AdminProfile></AdminRoutes> },
     ],
   },
 ]);
