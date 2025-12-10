@@ -5,7 +5,6 @@ import { Eye, EyeOff } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router";
 import GoogleLogin from "../SocialLogin/GoogleLogin";
 import useAuth from "../../../Hooks/UseAuth";
-import { toast } from "react-toastify";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 
@@ -33,28 +32,63 @@ const Signup = () => {
   //   reset();
   // };
 
+  const handleFirebaseError = (code) => {
+  switch (code) {
+    case "auth/email-already-in-use":
+      return "This email is already registered! Try signing in instead.";
+    case "auth/invalid-email":
+      return "Please enter a valid email address.";
+    case "auth/weak-password":
+      return "Your password is too weak! Use at least 8 characters:";
+    case "auth/operation-not-allowed":
+      return "Email/password sign-in is disabled. Contact admin.";
+    case "auth/network-request-failed":
+      return "Network error! Please check your internet connection.";
+    default:
+      return "Something went wrong! Please try again!";
+  }
+};
   const onSubmit = (data) => {
     // console.log("Signup Data:", data);
-    RegisterUser(data.email, data.password).then(() => {
-      // console.log(res);
-      const userInfo = {
-        email: data?.email,
-        name: data?.fullName,
-        photoURL: data?.photoURL,
-      };
-      axiosSecure.post("/users", userInfo).then((data) => {
-        if (data.data.insertedId) {
-          Swal.fire({
-            title: "Account Created Successfully!",
-            text: "We're happy to have you!",
-            icon: "success",
-            confirmButtonColor: "#008000",
-          });
-        }
-        navigate(from, { replace: true });
+    RegisterUser(data.email, data.password)
+      .then(() => {
+        // console.log(res);
+        const userInfo = {
+          email: data?.email,
+          name: data?.fullName,
+          photoURL: data?.photoURL,
+        };
+        axiosSecure.post("/users", userInfo).then((data) => {
+          if (data.data.insertedId) {
+            // add user name and photourl
+            const userProfile = {
+              name: data?.fullName,
+              photoURL: data?.photoURL,
+            };
+            userProfileUpdate(userProfile).then(() => {
+              Swal.fire({
+                title: "Account Created Successfully!",
+                text: "We're happy to have you!",
+                icon: "success",
+                confirmButtonColor: "#008000",
+              });
+              navigate(from, { replace: true });
+            });
+          }
+        });
+        // toast.success("user created successfully")
+      })
+      .catch((err) => {
+        const message = handleFirebaseError(err.code);
+        // console.log(err);
+        Swal.fire({
+          title: "Signup Failed",
+          text: message,
+          icon: "error",
+          confirmButtonColor: "#facc15",
+        });
       });
-      // toast.success("user created successfully")
-    });
+
     reset();
     // handle signup logic here
   };
