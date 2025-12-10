@@ -9,7 +9,7 @@ import useAuth from "../../../Hooks/UseAuth";
 const AddLesson = () => {
   const { isPremium, role } = useRole();
   const axiosSecure = useAxiosSecure();
-  const {user} = useAuth() // role = "admin" | "premium" | "free"
+  const { user } = useAuth(); // role = "admin" | "premium" | "free"
   const {
     register,
     handleSubmit,
@@ -19,10 +19,16 @@ const AddLesson = () => {
 
   const onSubmit = (data) => {
     // console.log(data);
+    const { title, description, category, tone, privacy, access } = data;
     const lessonData = {
-        authorEmail : user?.email,
-        data
-    }
+      authorEmail: user?.email,
+      title,
+      description,
+      category,
+      tone,
+      privacy,
+      access,
+    };
     axiosSecure.post("/lessons", lessonData).then((data) => {
       if (data.data.insertedId) {
         Swal.fire({
@@ -152,15 +158,11 @@ const AddLesson = () => {
           <label className="text-white font-semibold">Access Level</label>
           <select
             {...register("access")}
-            disabled={role !== "premium" && role !== "admin"}
+            disabled={!isPremium}
             className={`w-full mt-1 px-4 py-3 rounded-xl bg-white/20 border border-white/20 
-              text-white focus:outline-yellow-400
-              ${
-                role !== "premium" &&
-                role !== "admin" &&
-                "opacity-50 cursor-not-allowed"
-              }
-            `}
+      text-white focus:outline-yellow-400
+      ${!isPremium && "opacity-50 cursor-not-allowed"}
+    `}
           >
             <option value="free">Free</option>
             <option value="premium">Premium</option>

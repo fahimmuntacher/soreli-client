@@ -113,7 +113,7 @@ const Navbar = () => {
                 {item.name}
               </NavLink>
             ))}
-            {/* user */}
+          {/* user */}
           {role === "user" &&
             userMenu.map((item) => (
               <NavLink key={item.path} to={item.path} className={linkClasses}>
@@ -175,11 +175,25 @@ const Navbar = () => {
                     </p>
                     <hr className="border-white/30 mb-2" />
 
-                    <NavLink to={role === "admin" ? "/dashboard/admin/profile" : "/dashboard/profile"} className={linkClasses}>
+                    <NavLink
+                      to={
+                        role === "admin"
+                          ? "/dashboard/admin/profile"
+                          : "/dashboard/profile"
+                      }
+                      className={linkClasses}
+                    >
                       Profile
                     </NavLink>
 
-                    <NavLink to={role === "admin" ? "/dashboard/admin" : "/dashboard/user"} className={linkClasses}>
+                    <NavLink
+                      to={
+                        role === "admin"
+                          ? "/dashboard/admin"
+                          : "/dashboard/user"
+                      }
+                      className={linkClasses}
+                    >
                       Dashboard
                     </NavLink>
 
@@ -201,7 +215,6 @@ const Navbar = () => {
           {open ? <X size={28} /> : <Menu size={28} />}
         </button>
       </div>
-
 
       {/* Mobile Drawer */}
       <AnimatePresence>
@@ -227,21 +240,21 @@ const Navbar = () => {
               ))}
             </div>
 
-           {/* admin Items */}
-          {role === "admin" &&
-            adminMenu.map((item) => (
-              <NavLink key={item.path} to={item.path} className={linkClasses}>
-                {item.name}
-              </NavLink>
-            ))}
+            {/* admin Items */}
+            {role === "admin" &&
+              adminMenu.map((item) => (
+                <NavLink key={item.path} to={item.path} className={linkClasses}>
+                  {item.name}
+                </NavLink>
+              ))}
 
             {/* user */}
-          {role === "user" &&
-            userMenu.map((item) => (
-              <NavLink key={item.path} to={item.path} className={linkClasses}>
-                {item.name}
-              </NavLink>
-            ))}
+            {role === "user" &&
+              userMenu.map((item) => (
+                <NavLink key={item.path} to={item.path} className={linkClasses}>
+                  {item.name}
+                </NavLink>
+              ))}
 
             {/* Mobile User Profile */}
             {user && (

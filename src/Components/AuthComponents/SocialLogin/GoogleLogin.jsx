@@ -25,7 +25,12 @@ const GoogleLogin = () => {
           
         axiosInstance.post("/users", userDetails).then(data => {
           if(data.data.insertedId){
-            toast.success("user added database")
+            Swal.fire({
+          title: "Login Success!",
+          text: "We're happy to see you back.",
+          icon: "success",
+          confirmButtonColor: "#008000",
+        });
           }
         });
         

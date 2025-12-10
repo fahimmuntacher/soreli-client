@@ -2,13 +2,21 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
 import { Eye, EyeOff } from "lucide-react";
-import { Link } from "react-router";
-import Logo from "../../Logo/Logo";
+import { Link, useLocation, useNavigate } from "react-router";
 import GoogleLogin from "../SocialLogin/GoogleLogin";
+import useAuth from "../../../Hooks/UseAuth";
+import { toast } from "react-toastify";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import Swal from "sweetalert2";
 
 const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [profileImage, setProfileImage] = useState(null);
+  const { RegisterUser, userProfileUpdate } = useAuth();
+  const navigate = useNavigate();
+  const axiosSecure = useAxiosSecure();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
+  // const [profileImage, setProfileImage] = useState(null);
 
   // React Hook Form
   const {
@@ -18,15 +26,35 @@ const Signup = () => {
     formState: { errors },
   } = useForm();
 
-  const handleImageChange = (e) => {
-    if (e.target.files && e.target.files[0]) {
-      setProfileImage(URL.createObjectURL(e.target.files[0]));
-    }
-    reset();
-  };
+  // const handleImageChange = (e) => {
+  //   if (e.target.files && e.target.files[0]) {
+  //     setProfileImage(URL.createObjectURL(e.target.files[0]));
+  //   }
+  //   reset();
+  // };
 
   const onSubmit = (data) => {
-    console.log("Signup Data:", data);
+    // console.log("Signup Data:", data);
+    RegisterUser(data.email, data.password).then(() => {
+      // console.log(res);
+      const userInfo = {
+        email: data?.email,
+        name: data?.fullName,
+        photoURL: data?.photoURL,
+      };
+      axiosSecure.post("/users", userInfo).then((data) => {
+        if (data.data.insertedId) {
+          Swal.fire({
+            title: "Account Created Successfully!",
+            text: "We're happy to have you!",
+            icon: "success",
+            confirmButtonColor: "#008000",
+          });
+        }
+        navigate(from, { replace: true });
+      });
+      // toast.success("user created successfully")
+    });
     reset();
     // handle signup logic here
   };
@@ -60,7 +88,7 @@ const Signup = () => {
         {/* Form */}
         <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
           {/* Profile Image Upload */}
-          <div className="flex flex-col items-center">
+          {/* <div className="flex flex-col items-center">
             <div className="w-24 h-24 mb-3 rounded-full overflow-hidden border-2 border-white/40 bg-white/10 flex items-center justify-center relative">
               {profileImage ? (
                 <img
@@ -79,8 +107,8 @@ const Signup = () => {
               accept="image/*"
               {...register("profileImage")}
               onChange={(e) => {
-                register("profileImage").onChange(e); // react-hook-form updates
-                handleImageChange(e); // update preview
+                register("profileImage").onChange(e); 
+                handleImageChange(e); 
               }}
               className="hidden"
             />
@@ -90,7 +118,7 @@ const Signup = () => {
             >
               Choose Image
             </label>
-          </div>
+          </div> */}
 
           {/* Full Name */}
           <motion.div
@@ -144,6 +172,32 @@ const Signup = () => {
             )}
           </motion.div>
 
+          {/* photourl */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: 0.5 }}
+          >
+            <label className="block text-gray-300 mb-1 text-sm">
+              Photo URL
+            </label>
+            <input
+              type="text"
+              placeholder="Your PhotoURL"
+              {...register("photoURL", {
+                required: "PhotoURL is required",
+              })}
+              className={`w-full p-3 rounded-lg bg-white/10 text-white border ${
+                errors.photoUrl ? "border-red-500" : "border-white/20"
+              } placeholder-gray-400 focus:outline-none focus:border-white/40`}
+            />
+            {errors.photoUrl && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.photoUrl.message}
+              </p>
+            )}
+          </motion.div>
+
           {/* Password */}
           <motion.div
             initial={{ opacity: 0, x: 20 }}
@@ -192,11 +246,13 @@ const Signup = () => {
           </motion.button>
         </form>
 
-        <motion.div  initial={{ opacity: 0 }}
+        <motion.div
+          initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.6 }}
-          className="text-right mt-3">
-            <GoogleLogin></GoogleLogin>
+          className="text-right mt-3"
+        >
+          <GoogleLogin></GoogleLogin>
         </motion.div>
 
         {/* Already have an account */}
