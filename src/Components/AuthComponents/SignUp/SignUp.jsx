@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Eye, EyeOff } from "lucide-react";
 import { Link } from "react-router";
 import Logo from "../../Logo/Logo";
+import GoogleLogin from "../SocialLogin/GoogleLogin";
 
 const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -190,6 +191,13 @@ const Signup = () => {
             Sign Up
           </motion.button>
         </form>
+
+        <motion.div  initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.6 }}
+          className="text-right mt-3">
+            <GoogleLogin></GoogleLogin>
+        </motion.div>
 
         {/* Already have an account */}
         <motion.div

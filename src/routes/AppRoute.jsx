@@ -1,44 +1,89 @@
-import React from 'react';
-import { createBrowserRouter } from 'react-router';
+import React from "react";
+import { createBrowserRouter } from "react-router";
 
-import Home from '../Pages/Home/Home';
-import MainLayout from '../Components/Layouts/MainLayout/MainLayouts';
-import AuthLayout from '../Components/Layouts/AuthLayout/AuthLayout';
-import Signin from '../Components/AuthComponents/SignIn/Signin';
-import Signup from '../Components/AuthComponents/SignUp/SignUp';
+import Home from "../Pages/Home/Home";
+import MainLayout from "../Components/Layouts/MainLayout/MainLayouts";
+import AuthLayout from "../Components/Layouts/AuthLayout/AuthLayout";
+import Signin from "../Components/AuthComponents/SignIn/Signin";
+import Signup from "../Components/AuthComponents/SignUp/SignUp";
+
+import UserDashBoardHome from "../Pages/Dashboard/User/UserDashBoardHome";
+import AddLesson from "../Pages/Lessons/AddLesson/AddLesson";
+import MyLesson from "../Pages/Lessons/MyLesson/MyLesson";
+import DashboadLayout from "../Components/Layouts/DashboardLayout/DashboadLayout";
+import MyFavorites from "../Pages/Dashboard/User/MyFavorites/MyFavorites";
+import UserProfile from "../Pages/Dashboard/User/UserProfile/UserProfile";
+import UpdateLesson from "../Pages/Dashboard/User/UpdateLesson/UpdateLesson";
+import AdminDashboardHome from "../Pages/Dashboard/Admin/AdminDashboardHome/AdminDashboardHome";
+import ManageUsers from "../Pages/Dashboard/Admin/ManageUsers/ManageUsers";
+import ManageLessons from "../Pages/Dashboard/Admin/ManageLessons/ManageLessons";
+import ReportedLessons from "../Pages/Dashboard/Admin/ReportedLessons/ReportedLessons";
+import AdminProfile from "../Pages/Dashboard/Admin/AdminProfile/AdminProfile";
 
 const AppRoute = createBrowserRouter([
-    // -----------------------------------------
-    //MainLayout
-    //------------------------------------------
-    {
-        path: "/",
-        element: <MainLayout></MainLayout>,
-        children: [
-            {
-                index: true,
-                element: <Home></Home>
-            }
-        ]
-    },
+  // -----------------------------------------
+  //MainLayout
+  //------------------------------------------
+  {
+    path: "/",
+    element: <MainLayout></MainLayout>,
+    children: [
+      {
+        index: true,
+        element: <Home></Home>,
+      },
+    ],
+  },
 
-    // --------------------------------------
-    // Auth Layout
-    // --------------------------------------
-    {
-        path: "/",
-        element : <AuthLayout></AuthLayout>,
-        children : [
-            {
-                path : "/signin",
-                element: <Signin></Signin>
-            },
-            {
-                path : "/signup",
-                element : <Signup></Signup>
-            }
-        ]
-    }
-])
+  // --------------------------------------
+  // Auth Layout
+  // --------------------------------------
+  {
+    path: "/",
+    element: <AuthLayout></AuthLayout>,
+    children: [
+      {
+        path: "/signin",
+        element: <Signin></Signin>,
+      },
+      {
+        path: "/signup",
+        element: <Signup></Signup>,
+      },
+    ],
+  },
+
+  // -------------------------------------
+  // Dashboard Layout
+  // -------------------------------------
+  {
+    path: "/dashboard",
+    element: <DashboadLayout></DashboadLayout>,
+    children: [
+      // ====================
+      // USER DASHBOARD ROUTES
+      // ====================
+      { index: true, element: <UserDashBoardHome></UserDashBoardHome> },
+      { path: "add-lesson", element: <AddLesson></AddLesson> },
+      { path: "my-lessons", element:  <MyLesson></MyLesson> },
+      { path: "my-favorites", element: <MyFavorites></MyFavorites>},
+      { path: "profile", element: <UserProfile></UserProfile> },
+
+      // ====================
+      // UPDATE LESSON (Private page)
+      // ====================
+      { path: "update-lesson/:id", element: <UpdateLesson></UpdateLesson> },
+
+      // ====================
+      // ADMIN DASHBOARD ROUTES
+      // ====================
+      { path: "admin", element: <AdminDashboardHome></AdminDashboardHome> },
+      { path: "admin/manage-users", element: <ManageUsers></ManageUsers> },
+      { path: "admin/manage-lessons", element: <ManageLessons></ManageLessons> },
+      { path: "admin/reported-lessons", element: <ReportedLessons></ReportedLessons> },
+      { path: "admin/profile", element: <AdminProfile></AdminProfile> },
+    ],
+  },
+]);
 
 export default AppRoute;
