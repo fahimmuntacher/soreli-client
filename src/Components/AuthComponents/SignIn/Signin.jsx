@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
 import { Eye, EyeOff } from "lucide-react";
-import { Link } from "react-router"; // For navigation
+import { Link, useLocation, useNavigate } from "react-router"; // For navigation
 import Logo from "../../Logo/Logo"; // Your logo component
 import GoogleLogin from "../SocialLogin/GoogleLogin";
 import useAuth from "../../../Hooks/UseAuth";
@@ -11,6 +11,9 @@ import Swal from "sweetalert2";
 const Signin = () => {
   const [showPassword, setShowPassword] = useState(false);
   const { signInUser } = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const from = location.state?.from?.pathname || "/";
 
   // Initialize React Hook Form
   const {
@@ -48,6 +51,7 @@ const Signin = () => {
           icon: "success",
           confirmButtonColor: "#008000",
         });
+        navigate(from, { replace: true });
       })
       .catch((err) => {
         const message = getFirebaseErrorMessage(err.code);

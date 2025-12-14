@@ -23,6 +23,10 @@ import AdminRoutes from "./AdminRoute/AdminRoute";
 import PrivateRoute from "./PrivateRoute/PrivateRoute";
 import PublicLessons from "../Pages/Lessons/PublicLessons/PublicLessons";
 import UserRoutes from "./UserRoute/UserRoute";
+import Upgrade from "../Pages/Upgrade/Upgrade";
+import Checkout from "../Pages/Upgrade/Checkout/Checkout";
+import CancelCheckOut from "../Pages/Upgrade/Checkout/CancelCheckout/CancelCheckOut";
+import PremiumRote from "./PremiumRoute/PremiumRoute";
 
 const AppRoute = createBrowserRouter([
   // -----------------------------------------
@@ -39,6 +43,18 @@ const AppRoute = createBrowserRouter([
       {
         path: "/public-lessons",
         element: <PublicLessons></PublicLessons>,
+      },
+      {
+        path: "/upgrade",
+        element: <PrivateRoute><PremiumRote><Upgrade></Upgrade></PremiumRote></PrivateRoute>,
+      },
+      {
+        path: "/checkout/success",
+        element: <PrivateRoute><Checkout></Checkout></PrivateRoute>,
+      },
+      {
+        path: "/checkout/cancel",
+        element: <PrivateRoute><CancelCheckOut></CancelCheckOut></PrivateRoute>,
       },
     ],
   },

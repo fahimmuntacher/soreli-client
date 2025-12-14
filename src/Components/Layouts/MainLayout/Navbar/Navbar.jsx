@@ -7,6 +7,7 @@ import {
   Home,
   HomeIcon,
   Menu,
+  Star,
   X,
 } from "lucide-react";
 import { NavLink } from "react-router";
@@ -19,7 +20,7 @@ const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [dropdown, setDropdown] = useState(false);
   const { user, signOutUser } = useAuth();
-  const { role } = useRole();
+  const { role, isPremium } = useRole();
 
   const handleSignOut = () => {
     Swal.fire({
@@ -50,7 +51,10 @@ const Navbar = () => {
   const userMenu = [
     { name: "Add Lesson", path: "/dashboard/add-lesson" },
     { name: "My Lessons", path: "/dashboard/my-lessons" },
-    { name: "Pricing / Upgrade", path: "/pricing" },
+    {
+      name: `${isPremium ? `Premium ⭐` : "Pricing / Upgrade"}`,
+      path: `${isPremium ? "/dashboard/profile" : "/upgrade"}`,
+    },
   ];
 
   // USER MENU

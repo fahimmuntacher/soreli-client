@@ -4,7 +4,6 @@ import { useNavigate, useLocation } from "react-router";
 import useAuth from "../../../Hooks/UseAuth";
 import Swal from "sweetalert2";
 import useAxios from "../../../Hooks/useAxios";
-import { toast } from "react-toastify";
 
 const GoogleLogin = () => {
   const { signInWithGoogle } = useAuth();
@@ -18,23 +17,19 @@ const GoogleLogin = () => {
       .then((res) => {
         console.log(res.user);
         const userDetails = {
-            email : res?.user?.email,
-            name: res?.user?.displayName,
-            photoURL : res?.user?.photoURL
-          }
-          
-        axiosInstance.post("/users", userDetails).then(data => {
-          if(data.data.insertedId){
-            Swal.fire({
-          title: "Login Success!",
-          text: "We're happy to see you back.",
+          email: res?.user?.email,
+          name: res?.user?.displayName,
+          photoURL: res?.user?.photoURL,
+        };
+
+        axiosInstance.post("/users", userDetails).then(() => {});
+
+        Swal.fire({
+          title: "Login Successful!",
+          text: "Welcome back! We're happy to see you.",
           icon: "success",
           confirmButtonColor: "#008000",
         });
-          }
-        });
-        
-
         navigate(from, { replace: true });
       })
       .catch(() => {
