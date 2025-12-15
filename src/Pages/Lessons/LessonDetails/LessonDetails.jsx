@@ -33,6 +33,8 @@ const LessonDetails = () => {
   });
 
   const isLiked = user && lesson?.likes?.includes(user.email);
+  const isSaved = user &&  lesson?.favorites?.includes(user.email);
+
   /* ---------------- Comment get ---------------- */
   const [page, setPage] = useState(1);
   const limit = 5;
@@ -92,6 +94,20 @@ const LessonDetails = () => {
       toast.success("Lesson reported successfully");
       setShowReport(false);
       setReportReason("");
+    },
+  });
+
+  /* ---------------- Favorite Mutation ---------------- */
+
+  const favoriteMutation = useMutation({
+    mutationFn: async () => {
+      return axiosSecure.patch(`/lessons/favorite/${id}`, {
+        email: user.email,
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(["lesson-details", id]);
+      // toast.success("Updated favorites");
     },
   });
 
@@ -212,8 +228,21 @@ const LessonDetails = () => {
         </button>
 
         {/* save button */}
-        <button className="btn btn-outline">
-          <Bookmark size={16} /> Save
+        <button
+          onClick={() => {
+            if (!user) {
+              toast.error("Please log in to save lessons");
+              navigate("/signin");
+              return;
+            }
+            favoriteMutation.mutate();
+          }}
+          className={`btn btn-outline ${
+            isSaved ? "text-yellow-400 border-yellow-400" : ""
+          }`}
+        >
+          <Bookmark size={16} fill={isSaved ? "#facc15" : "none"} />
+          {isSaved ? "Saved" : "Save"}
         </button>
 
         {/* report button */}
