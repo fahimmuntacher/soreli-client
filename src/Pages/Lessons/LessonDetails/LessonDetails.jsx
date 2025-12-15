@@ -19,6 +19,7 @@ import ReportPopUp from "./ReportPopUp";
 
 const LessonDetails = () => {
   const { id } = useParams();
+  console.log(id);
   const navigate = useNavigate();
   const axiosPublic = useAxios();
   const axiosSecure = useAxiosSecure();
@@ -28,7 +29,7 @@ const LessonDetails = () => {
   const [showSharePopup, setShowSharePopup] = useState(false);
   const [showReport, setShowReport] = useState(false);
   const [reportReason, setReportReason] = useState("");
-  const [showReportPopup, setShowReportPopup] = useState(false);
+  // const [showReportPopup, setShowReportPopup] = useState(false);
   const [commentText, setCommentText] = useState("");
   const [page, setPage] = useState(1);
   const limit = 5;

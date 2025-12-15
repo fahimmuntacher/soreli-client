@@ -42,11 +42,11 @@ const AppRoute = createBrowserRouter([
         element: <Home></Home>,
       },
       {
-        path: "/public-lessons",
+        path: "/lessons",
         element: <PublicLessons></PublicLessons>,
       },
       {
-        path: "/public-lessons/:id",
+        path: "/lessons/:id",
         element: <LessonDetails></LessonDetails>,
       },
       {

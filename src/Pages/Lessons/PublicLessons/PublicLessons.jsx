@@ -120,7 +120,7 @@ const PublicLessons = () => {
 
                   {!isLocked && (
                     <Link
-                      to={`/public-lessons/${lesson._id}`}
+                      to={`/lessons/${lesson._id}`}
                       className="text-sm text-yellow-300 hover:underline"
                     >
                       See Details →
