@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import useRole from "../../../Hooks/useRole";
 import useAxios from "../../../Hooks/useAxios";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import { useState } from "react";
 
 const LessonDetails = () => {
   const { id } = useParams();
@@ -40,6 +41,24 @@ const LessonDetails = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries(["lesson-details", id]);
+    },
+  });
+
+  /* ---------------- Comment Mutation ---------------- */
+  const [commentText, setCommentText] = useState("");
+
+  const commentMutation = useMutation({
+    mutationFn: async () => {
+      return axiosSecure.post(`/lessons/${id}/comments`, {
+        comment: commentText,
+        userName: user.displayName,
+        userPhoto: user.photoURL,
+      });
+    },
+    onSuccess: () => {
+      setCommentText("");
+      toast.success("Comment added");
+      queryClient.invalidateQueries(["lesson-comments", id]);
     },
   });
 
@@ -171,12 +190,27 @@ const LessonDetails = () => {
 
       {/* ================= Comments ================= */}
       <div className="bg-white/10 border border-white/20 rounded-2xl p-6">
-        <h3 className="text-lg font-semibold mb-4">Comments</h3>
+        <h3 className="text-lg font-semibold mb-4">
+          {/* Comments ({comments?.length}) */}
+        </h3>
+
         {user ? (
-          <textarea
-            placeholder="Write a comment..."
-            className="w-full bg-black/30 rounded-lg p-3 text-white"
-          />
+          <div className="space-y-3">
+            <textarea
+              value={commentText}
+              onChange={(e) => setCommentText(e.target.value)}
+              placeholder="Write a comment..."
+              className="w-full bg-black/30 rounded-lg p-3 text-white resize-none"
+            />
+
+            <button
+              onClick={() => commentMutation.mutate()}
+              disabled={!commentText.trim()}
+              className="btn btn-sm btn-outline"
+            >
+              Post Comment
+            </button>
+          </div>
         ) : (
           <p className="text-gray-400">Log in to comment</p>
         )}
