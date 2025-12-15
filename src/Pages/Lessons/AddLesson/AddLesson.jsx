@@ -22,6 +22,7 @@ const AddLesson = () => {
     const { title, description, category, tone, privacy, access } = data;
     const lessonData = {
       authorEmail: user?.email,
+      authorName : user?.displayName,
       title,
       description,
       category,

@@ -27,6 +27,7 @@ import Upgrade from "../Pages/Upgrade/Upgrade";
 import Checkout from "../Pages/Upgrade/Checkout/Checkout";
 import CancelCheckOut from "../Pages/Upgrade/Checkout/CancelCheckout/CancelCheckOut";
 import PremiumRote from "./PremiumRoute/PremiumRoute";
+import LessonDetails from "../Pages/Lessons/LessonDetails/LessonDetails";
 
 const AppRoute = createBrowserRouter([
   // -----------------------------------------
@@ -43,6 +44,10 @@ const AppRoute = createBrowserRouter([
       {
         path: "/public-lessons",
         element: <PublicLessons></PublicLessons>,
+      },
+      {
+        path: "/public-lessons/:id",
+        element: <LessonDetails></LessonDetails>,
       },
       {
         path: "/upgrade",
