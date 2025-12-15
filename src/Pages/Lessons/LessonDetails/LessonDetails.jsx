@@ -32,7 +32,22 @@ const LessonDetails = () => {
     },
   });
 
-  const isLiked = user && lesson.likes?.includes(user.email);
+  const isLiked = user && lesson?.likes?.includes(user.email);
+  /* ---------------- Comment get ---------------- */
+  const [page, setPage] = useState(1);
+  const limit = 5;
+  const { data: commentData, isLoading: commentsLoading } = useQuery({
+    queryKey: ["lesson-comments", id, page],
+    queryFn: async () => {
+      const res = await axiosPublic.get(
+        `/lessons/${id}/comments?page=${page}&limit=${limit}`
+      );
+      return res.data;
+    },
+    keepPreviousData: true,
+  });
+
+  const comments = commentData?.comments || [];
 
   /* ---------------- Like Mutation ---------------- */
   const likeMutation = useMutation({
@@ -59,6 +74,24 @@ const LessonDetails = () => {
       setCommentText("");
       toast.success("Comment added");
       queryClient.invalidateQueries(["lesson-comments", id]);
+    },
+  });
+
+  // /* ---------------- Reports ---------------- */
+  const [showReport, setShowReport] = useState(false);
+  const [reportReason, setReportReason] = useState("");
+
+  const reportMutation = useMutation({
+    mutationFn: async () => {
+      return axiosSecure.post(`/lessons/report/${id}`, {
+        email: user.email,
+        reason: reportReason,
+      });
+    },
+    onSuccess: () => {
+      toast.success("Lesson reported successfully");
+      setShowReport(false);
+      setReportReason("");
     },
   });
 
@@ -167,6 +200,7 @@ const LessonDetails = () => {
 
       {/* ================= Actions ================= */}
       <div className="flex gap-4 flex-wrap">
+        {/* liked button */}
         <button
           onClick={handleLike}
           className={`btn btn-outline ${
@@ -177,12 +211,65 @@ const LessonDetails = () => {
           {isLiked ? "Liked" : "Like"}
         </button>
 
+        {/* save button */}
         <button className="btn btn-outline">
           <Bookmark size={16} /> Save
         </button>
-        <button className="btn btn-outline">
+
+        {/* report button */}
+        <button
+          onClick={() => {
+            if (!user) {
+              toast.error("Please log in to report");
+              navigate("/signin");
+              return;
+            }
+            setShowReport(true);
+          }}
+          className="btn btn-outline"
+        >
           <Flag size={16} /> Report
         </button>
+        {showReport && (
+          <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
+            <div className="bg-[#0f172a] p-6 rounded-2xl w-full max-w-sm border border-white/20">
+              <h3 className="text-lg font-semibold mb-3">Report Lesson</h3>
+
+              <select
+                value={reportReason}
+                onChange={(e) => setReportReason(e.target.value)}
+                className="w-full bg-black/40 p-2 rounded-lg text-white mb-4"
+              >
+                <option value="">Select reason</option>
+                <option>Inappropriate Content</option>
+                <option>Hate Speech or Harassment</option>
+                <option>Misleading or False Information</option>
+                <option>Spam or Promotional Content</option>
+                <option>Sensitive or Disturbing Content</option>
+                <option>Other</option>
+              </select>
+
+              <div className="flex gap-3 justify-end">
+                <button
+                  onClick={() => setShowReport(false)}
+                  className="btn btn-sm btn-outline"
+                >
+                  Cancel
+                </button>
+
+                <button
+                  disabled={!reportReason}
+                  onClick={() => reportMutation.mutate()}
+                  className="btn btn-sm btn-error"
+                >
+                  Submit
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* share button */}
         <button className="btn btn-outline">
           <Share2 size={16} /> Share
         </button>
@@ -215,6 +302,55 @@ const LessonDetails = () => {
           <p className="text-gray-400">Log in to comment</p>
         )}
       </div>
+
+      {/* ================= comments ui ================= */}
+      <div className="space-y-4">
+        {commentsLoading ? (
+          <p className="text-gray-400">Loading comments...</p>
+        ) : (
+          comments.map((c) => (
+            <div key={c._id} className="flex gap-3 bg-black/30 rounded-xl p-4">
+              <img
+                src={c.userPhoto || "https://i.ibb.co/2n4nJ0k/avatar.png"}
+                className="w-10 h-10 rounded-full"
+              />
+
+              <div>
+                <p className="font-semibold text-sm">{c.userName}</p>
+                <p className="text-gray-300 text-sm">{c.comment}</p>
+                <p className="text-xs text-gray-500 mt-1">
+                  {new Date(c.createdAt).toLocaleString()}
+                </p>
+              </div>
+            </div>
+          ))
+        )}
+      </div>
+
+      {/* ================= Pagination ================= */}
+      {commentData?.totalPages > 1 && (
+        <div className="flex justify-center gap-2 mt-6">
+          <button
+            disabled={page === 1}
+            onClick={() => setPage((p) => p - 1)}
+            className="btn btn-xs btn-outline"
+          >
+            Prev
+          </button>
+
+          <span className="text-sm text-gray-400 flex items-center">
+            Page {page} of {commentData.totalPages}
+          </span>
+
+          <button
+            disabled={page === commentData.totalPages}
+            onClick={() => setPage((p) => p + 1)}
+            className="btn btn-xs btn-outline"
+          >
+            Next
+          </button>
+        </div>
+      )}
 
       {/* ================= Similar Lessons ================= */}
       <div>
