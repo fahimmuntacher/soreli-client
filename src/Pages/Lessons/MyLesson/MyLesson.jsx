@@ -108,220 +108,257 @@ const MyLessons = () => {
       <h2 className="text-3xl font-bold mb-8">📘 My Lessons</h2>
 
       {/* Table Container */}
-      <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden">
-        <table className="w-full text-sm">
-          <thead className="bg-white/10 text-left">
-            <tr>
-              <th className="p-4">Lesson</th>
-              <th className="p-4">Status</th>
-              <th className="p-4">Stats</th>
-              <th className="p-4">Created</th>
-              <th className="p-4 text-right">Actions</th>
-            </tr>
-          </thead>
+      {lessons.length === 0 ? (
+        <div className="flex flex-col items-center justify-center text-center py-24 bg-white/5 border border-white/10 rounded-2xl backdrop-blur-xl">
+          <div className="text-6xl mb-6">📭</div>
 
-          <tbody>
-            {lessons.map((lesson) => (
-              <tr
-                key={lesson._id}
-                className="border-t border-white/10 hover:bg-white/5 transition"
+          <h3 className="text-2xl font-semibold mb-2">
+            No lessons created yet
+          </h3>
+
+          <p className="text-gray-400 max-w-md mb-8">
+            You haven’t published any lessons yet. Start creating and share your
+            knowledge with the world.
+          </p>
+
+          <div className="flex gap-4 flex-wrap justify-center">
+            <Link
+              to="/dashboard/add-lesson"
+              className="px-6 py-3 rounded-xl bg-blue-500 hover:bg-blue-600 transition font-medium"
+            >
+              ➕ Create your first lesson
+            </Link>
+
+            {!isPremium && (
+              <Link
+                to="/pricing"
+                className="px-6 py-3 rounded-xl bg-white/10 hover:bg-white/20 transition text-yellow-400"
               >
-                {/* Title */}
-                <td className="p-4">
-                  <p className="font-semibold">{lesson.title}</p>
-                  <p className="text-xs text-gray-400">
-                    {lesson.category} • {lesson.tone}
-                  </p>
-                </td>
+                ⭐ Unlock Premium Features
+              </Link>
+            )}
+          </div>
+        </div>
+      ) : (
+        <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden">
+          <table className="w-full text-sm">
+            <thead className="bg-white/10 text-left">
+              <tr>
+                <th className="p-4">Lesson</th>
+                <th className="p-4">Status</th>
+                <th className="p-4">Stats</th>
+                <th className="p-4">Created</th>
+                <th className="p-4 text-right">Actions</th>
+              </tr>
+            </thead>
 
-                {/* Visibility + Access */}
-                <td className="p-4 flex items-center justify-start gap-2.5">
-                  {/* Visibility */}
-                  <div className="flex items-center gap-2 ">
-                    <button
-                      disabled={updatingId === lesson._id}
-                      onClick={() => handleVisibilityChange(lesson)}
-                      className={`px-3 py-1 rounded-full text-xs font-medium transition cursor-pointer ${
-                        lesson.privacy === "public"
-                          ? "bg-green-500/20 text-green-400"
-                          : "bg-gray-500/20 text-gray-400"
-                      }`}
-                    >
-                      {lesson.privacy === "public" ? "🌍 Public" : "🔒 Private"}
-                    </button>
-                  </div>
+            <tbody>
+              {lessons.map((lesson) => (
+                <tr
+                  key={lesson._id}
+                  className="border-t border-white/10 hover:bg-white/5 transition"
+                >
+                  {/* Title */}
+                  <td className="p-4">
+                    <p className="font-semibold">{lesson.title}</p>
+                    <p className="text-xs text-gray-400">
+                      {lesson.category} • {lesson.tone}
+                    </p>
+                  </td>
 
-                  {/* Access Level */}
-                  <div className="flex items-center gap-2">
-                    <button
-                      disabled={!isPremium || updatingId === lesson._id}
-                      title={!isPremium ? "Premium subscription required" : ""}
-                      onClick={() => handleAccessChange(lesson)}
-                      className={`px-3 py-1 rounded-full text-xs font-medium transition ${
-                        lesson.access === "premium"
-                          ? "bg-yellow-500/20 text-yellow-400"
-                          : "bg-blue-500/20 text-blue-400"
-                      } ${!isPremium && "opacity-50 cursor-not-allowed"}`}
-                    >
-                      {lesson.access === "premium" ? "⭐ Premium" : "🆓 Free"}
-                    </button>
+                  {/* Visibility + Access */}
+                  <td className="p-4 flex items-center justify-start gap-2.5">
+                    {/* Visibility */}
+                    <div className="flex items-center gap-2 ">
+                      <button
+                        disabled={updatingId === lesson._id}
+                        onClick={() => handleVisibilityChange(lesson)}
+                        className={`px-3 py-1 rounded-full text-xs font-medium transition cursor-pointer ${
+                          lesson.privacy === "public"
+                            ? "bg-green-500/20 text-green-400"
+                            : "bg-gray-500/20 text-gray-400"
+                        }`}
+                      >
+                        {lesson.privacy === "public"
+                          ? "🌍 Public"
+                          : "🔒 Private"}
+                      </button>
+                    </div>
+
+                    {/* Access Level */}
+                    <div className="flex items-center gap-2">
+                      <button
+                        disabled={!isPremium || updatingId === lesson._id}
+                        title={
+                          !isPremium ? "Premium subscription required" : ""
+                        }
+                        onClick={() => handleAccessChange(lesson)}
+                        className={`px-3 py-1 rounded-full text-xs font-medium transition ${
+                          lesson.access === "premium"
+                            ? "bg-yellow-500/20 text-yellow-400"
+                            : "bg-blue-500/20 text-blue-400"
+                        } ${!isPremium && "opacity-50 cursor-not-allowed"}`}
+                      >
+                        {lesson.access === "premium" ? "⭐ Premium" : "🆓 Free"}
+                      </button>
+
+                      {!isPremium && (
+                        <span className="text-[10px] text-yellow-400">
+                          Upgrade required
+                        </span>
+                      )}
+                    </div>
 
                     {!isPremium && (
-                      <span className="text-[10px] text-yellow-400">
-                        Upgrade required
-                      </span>
+                      <p className="text-[10px] text-yellow-400">
+                        Premium required
+                      </p>
                     )}
-                  </div>
+                  </td>
 
-                  {!isPremium && (
-                    <p className="text-[10px] text-yellow-400">
-                      Premium required
-                    </p>
-                  )}
-                </td>
+                  {/* Stats */}
+                  <td className="p-4 text-gray-300">
+                    ❤️ {lesson.reactionsCount || 0} <br />
+                    🔖 {lesson.favoritesCount || 0}
+                  </td>
 
-                {/* Stats */}
-                <td className="p-4 text-gray-300">
-                  ❤️ {lesson.reactionsCount || 0} <br />
-                  🔖 {lesson.favoritesCount || 0}
-                </td>
+                  {/* Date */}
+                  <td className="p-4 text-gray-400">
+                    {new Date(lesson.createdAt).toLocaleDateString()}
+                  </td>
 
-                {/* Date */}
-                <td className="p-4 text-gray-400">
-                  {new Date(lesson.createdAt).toLocaleDateString()}
-                </td>
+                  {/* Actions */}
+                  <td className="p-4 text-right space-x-2 flex justify-end items-center">
+                    {/* view details */}
+                    <Link
+                      to={`/lessons/${lesson._id}`}
+                      className="p-2 rounded-lg bg-white/10 hover:bg-white/20 inline-block"
+                    >
+                      <Eye size={16} />
+                    </Link>
 
-                {/* Actions */}
-                <td className="p-4 text-right space-x-2 flex justify-end items-center">
-                  {/* view details */}
-                  <Link
-                    to={`/lessons/${lesson._id}`}
-                    className="p-2 rounded-lg bg-white/10 hover:bg-white/20 inline-block"
-                  >
-                    <Eye size={16} />
-                  </Link>
-
-                  {/* edit lesson */}
-                  <button
-                    onClick={() => {
-                      setEditingLesson(lesson);
-                      setEditModal(true);
-                    }}
-                    className="p-2 rounded-lg bg-blue-500/20 hover:bg-blue-500/30"
-                  >
-                    <Pencil size={16} />
-                  </button>
-                  {/* edit modal */}
-                  {editModal && editingLesson && (
-                    <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
-                      <div className="bg-[#0f172a] rounded-2xl p-6 w-[95%] max-w-xl border border-white/10">
-                        {/* Header */}
-                        <div className="flex justify-between items-center mb-6">
-                          <h3 className="text-xl font-semibold">
-                            Update Lesson
-                          </h3>
-                          <button onClick={() => setEditModal(false)}>
-                            <X />
-                          </button>
-                        </div>
-
-                        {/* Form */}
-                        <form
-                          onSubmit={async (e) => {
-                            e.preventDefault();
-                            setSaving(true);
-
-                            const form = e.target;
-                            const updatedLesson = {
-                              title: form.title.value,
-                              category: form.category.value,
-                              tone: form.tone.value,
-                              description: form.description.value,
-                            };
-
-                            try {
-                              await axiosSecure.patch(
-                                `/lessons/${editingLesson._id}`,
-                                updatedLesson
-                              );
-                              toast.success("Lesson updated");
-                              refetch();
-                              setEditModal(false);
-                            } catch {
-                              toast.error("Update failed");
-                            } finally {
-                              setSaving(false);
-                            }
-                          }}
-                          className="space-y-4"
-                        >
-                          <input
-                            name="title"
-                            defaultValue={editingLesson.title}
-                            className="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/10"
-                            placeholder="Lesson Title"
-                            required
-                          />
-
-                          <input
-                            name="category"
-                            defaultValue={editingLesson.category}
-                            className="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/10"
-                            placeholder="Category"
-                            required
-                          />
-
-                          <input
-                            name="tone"
-                            defaultValue={editingLesson.tone}
-                            className="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/10"
-                            placeholder="Emotional Tone"
-                          />
-
-                          <textarea
-                            name="description"
-                            defaultValue={editingLesson.description}
-                            className="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/10"
-                            rows={4}
-                            placeholder="Lesson description"
-                          />
-
-                          {/* Footer */}
-                          <div className="flex justify-end gap-3 pt-4">
-                            <button
-                              type="button"
-                              onClick={() => setEditModal(false)}
-                              className="px-4 py-2 rounded-lg bg-white/10"
-                            >
-                              Cancel
-                            </button>
-
-                            <button
-                              type="submit"
-                              disabled={saving}
-                              className="px-4 py-2 rounded-lg bg-blue-500"
-                            >
-                              {saving ? "Saving..." : "Update"}
+                    {/* edit lesson */}
+                    <button
+                      onClick={() => {
+                        setEditingLesson(lesson);
+                        setEditModal(true);
+                      }}
+                      className="p-2 rounded-lg bg-blue-500/20 hover:bg-blue-500/30"
+                    >
+                      <Pencil size={16} />
+                    </button>
+                    {/* edit modal */}
+                    {editModal && editingLesson && (
+                      <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
+                        <div className="bg-[#0f172a] rounded-2xl p-6 w-[95%] max-w-xl border border-white/10">
+                          {/* Header */}
+                          <div className="flex justify-between items-center mb-6">
+                            <h3 className="text-xl font-semibold">
+                              Update Lesson
+                            </h3>
+                            <button onClick={() => setEditModal(false)}>
+                              <X />
                             </button>
                           </div>
-                        </form>
-                      </div>
-                    </div>
-                  )}
 
-                  {/* delete lesson */}
-                  <button
-                    onClick={() => handleDelete(lesson._id)}
-                    className="p-2 rounded-lg bg-red-500/20 hover:bg-red-500/30"
-                  >
-                    <Trash2 size={16} />
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+                          {/* Form */}
+                          <form
+                            onSubmit={async (e) => {
+                              e.preventDefault();
+                              setSaving(true);
+
+                              const form = e.target;
+                              const updatedLesson = {
+                                title: form.title.value,
+                                category: form.category.value,
+                                tone: form.tone.value,
+                                description: form.description.value,
+                              };
+
+                              try {
+                                await axiosSecure.patch(
+                                  `/lessons/${editingLesson._id}`,
+                                  updatedLesson
+                                );
+                                toast.success("Lesson updated");
+                                refetch();
+                                setEditModal(false);
+                              } catch {
+                                toast.error("Update failed");
+                              } finally {
+                                setSaving(false);
+                              }
+                            }}
+                            className="space-y-4"
+                          >
+                            <input
+                              name="title"
+                              defaultValue={editingLesson.title}
+                              className="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/10"
+                              placeholder="Lesson Title"
+                              required
+                            />
+
+                            <input
+                              name="category"
+                              defaultValue={editingLesson.category}
+                              className="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/10"
+                              placeholder="Category"
+                              required
+                            />
+
+                            <input
+                              name="tone"
+                              defaultValue={editingLesson.tone}
+                              className="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/10"
+                              placeholder="Emotional Tone"
+                            />
+
+                            <textarea
+                              name="description"
+                              defaultValue={editingLesson.description}
+                              className="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/10"
+                              rows={4}
+                              placeholder="Lesson description"
+                            />
+
+                            {/* Footer */}
+                            <div className="flex justify-end gap-3 pt-4">
+                              <button
+                                type="button"
+                                onClick={() => setEditModal(false)}
+                                className="px-4 py-2 rounded-lg bg-white/10"
+                              >
+                                Cancel
+                              </button>
+
+                              <button
+                                type="submit"
+                                disabled={saving}
+                                className="px-4 py-2 rounded-lg bg-blue-500"
+                              >
+                                {saving ? "Saving..." : "Update"}
+                              </button>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* delete lesson */}
+                    <button
+                      onClick={() => handleDelete(lesson._id)}
+                      className="p-2 rounded-lg bg-red-500/20 hover:bg-red-500/30"
+                    >
+                      <Trash2 size={16} />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
 
       {/* DELETE MODAL */}
       {deleteModal && (
