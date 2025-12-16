@@ -311,7 +311,7 @@ const MyLessons = () => {
 
                   {/* delete lesson */}
                   <button
-                    onClick={() => handleDelete(lesson)}
+                    onClick={() => handleDelete(lesson._id)}
                     className="p-2 rounded-lg bg-red-500/20 hover:bg-red-500/30"
                   >
                     <Trash2 size={16} />
