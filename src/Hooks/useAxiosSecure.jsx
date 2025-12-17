@@ -6,6 +6,7 @@ import useAuth from "./UseAuth";
 
 const axiosSecure = axios.create({
   baseURL: "http://localhost:3000",
+  // baseURL: "https://soreli-server.vercel.app",
 });
 
 const useAxiosSecure = () => {
