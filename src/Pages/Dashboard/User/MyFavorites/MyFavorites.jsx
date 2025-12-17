@@ -87,6 +87,10 @@ const MyFavorites = () => {
 
   return (
     <div className="min-h-screen text-white px-4 py-6">
+      <head>
+        <title>My Favorites - Soreli</title>
+        <meta name="description" content="Your favorite lessons on Soreli" />
+      </head>
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-6">

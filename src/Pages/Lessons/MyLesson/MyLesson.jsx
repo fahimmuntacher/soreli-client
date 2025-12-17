@@ -109,6 +109,10 @@ const MyLessons = () => {
 
   return (
     <div className="min-h-screen text-white py-8 px-4 sm:px-6 lg:px-8">
+      <head>
+        <title>My Lessons - Soreli</title>
+        <meta name="description" content="View and manage your lessons on Soreli." />
+      </head>
       <div className="max-w-7xl mx-auto">
         <h2 className="text-3xl sm:text-4xl font-bold mb-8">My Lessons</h2>
 

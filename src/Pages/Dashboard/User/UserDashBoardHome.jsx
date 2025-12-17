@@ -72,6 +72,10 @@ const UserDashBoardHome = () => {
 
   return (
     <div className="text-white space-y-12">
+        <head>
+        <title>User Dashboard - Soreli</title>  
+        <meta name="description" content="User Dashboard Home Page of Soreli - Your Learning Companion" />
+        </head>
       {/* ================= HEADER ================= */}
       <div>
         <h1 className="text-3xl font-bold">

@@ -54,11 +54,16 @@ const AddLesson = () => {
   const tones = ["Motivational", "Sad", "Realization", "Gratitude"];
 
   return (
+   
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       className="max-w-3xl mx-auto mt-20 mb-10 p-8 bg-white/10 dark:bg-gray-900/30 backdrop-blur-xl border border-white/10 shadow-xl rounded-3xl"
     >
+      <head>
+        <title>Add New Lesson | Soreli</title>
+        <meta name="description" content="Create and share a new lesson on Soreli." />
+      </head>
       <h1 className="text-3xl font-bold text-center text-yellow-400 mb-6">
         Create New Lesson
       </h1>
