@@ -9,7 +9,11 @@ const ReportedLessons = () => {
   const [selectedLesson, setSelectedLesson] = useState(null);
   const [updatingId, setUpdatingId] = useState(null);
 
-  const { data: lessons = [], refetch, isLoading } = useQuery({
+  const {
+    data: lessons = [],
+    refetch,
+    isLoading,
+  } = useQuery({
     queryKey: ["reportedLessons"],
     queryFn: async () => {
       const res = await axiosSecure.get("/admin/reported-lessons");
@@ -70,7 +74,9 @@ const ReportedLessons = () => {
 
         {/* EMPTY / LOADING */}
         {isLoading ? (
-          <div className="text-center py-24 text-gray-400">Loading reports...</div>
+          <div className="text-center py-24 text-gray-400">
+            Loading reports...
+          </div>
         ) : lessons.length === 0 ? (
           <div className="flex flex-col items-center justify-center text-center py-24 bg-white/5 border border-white/10 rounded-2xl backdrop-blur-xl">
             <div className="text-7xl mb-6">🎉</div>
@@ -79,105 +85,71 @@ const ReportedLessons = () => {
           </div>
         ) : (
           <>
-            {/* DESKTOP TABLE */}
-            <div className="hidden lg:block bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden">
-              <table className="w-full">
-                <thead className="bg-white/10">
-                  <tr>
-                    <th className="text-left p-6 font-medium">Lesson</th>
-                    <th className="text-left p-6 font-medium">Reports</th>
-                    <th className="text-right p-6 font-medium">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {lessons.map((lesson) => (
-                    <tr
-                      key={lesson.lessonId}
-                      className="border-t border-white/10 hover:bg-white/5 transition"
-                    >
-                      <td className="p-6">
-                        <p className="font-semibold text-lg">{lesson.title}</p>
-                        <p className="text-sm text-gray-400">
-                          Author: {lesson.authorEmail}
-                        </p>
-                      </td>
 
-                      <td className="p-6">
-                        <span className="px-4 py-2 rounded-full text-xs font-medium bg-red-500/20 text-red-400">
-                          {lesson.reportCount} Reports
-                        </span>
-                      </td>
-
-                      <td className="p-6">
-                        <div className="flex justify-end gap-3">
-                          <button
-                            onClick={() => setSelectedLesson(lesson)}
-                            className="p-3 rounded-xl bg-white/10 hover:bg-white/20 transition"
-                          >
-                            <Eye size={18} />
-                          </button>
-                          <button
-                            disabled={updatingId === lesson.lessonId}
-                            onClick={() => handleIgnore(lesson.lessonId)}
-                            className="p-3 rounded-xl bg-yellow-500/20 hover:bg-yellow-500/30 transition"
-                          >
-                            <ShieldOff size={18} />
-                          </button>
-                          <button
-                            disabled={updatingId === lesson.lessonId}
-                            onClick={() => handleDelete(lesson.lessonId)}
-                            className="p-3 rounded-xl bg-red-500/20 hover:bg-red-500/30 transition"
-                          >
-                            <Trash2 size={18} />
-                          </button>
-                        </div>
-                      </td>
+          {/* table */}
+            <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden">
+              <div className="overflow-x-auto">
+                <table className="w-full min-w-[720px]">
+                  <thead className="bg-white/10 sticky top-0 z-10">
+                    <tr>
+                      <th className="text-left p-6 font-medium">Lesson</th>
+                      <th className="text-left p-6 font-medium">Reports</th>
+                      <th className="text-right p-6 font-medium">Actions</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                  </thead>
 
-            {/* MOBILE CARDS */}
-            <div className="lg:hidden space-y-4">
-              {lessons.map((lesson) => (
-                <div
-                  key={lesson.lessonId}
-                  className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6"
-                >
-                  <h3 className="text-xl font-semibold mb-1">{lesson.title}</h3>
-                  <p className="text-sm text-gray-400 mb-4">
-                    Author: {lesson.authorEmail}
-                  </p>
+                  <tbody>
+                    {lessons.map((lesson) => (
+                      <tr
+                        key={lesson.lessonId}
+                        className="border-t border-white/10 hover:bg-white/5 transition"
+                      >
+                        <td className="p-6">
+                          <p className="font-semibold text-lg">
+                            {lesson.title}
+                          </p>
+                          <p className="text-sm text-gray-400">
+                            Author: {lesson.authorEmail}
+                          </p>
+                        </td>
 
-                  <div className="flex items-center gap-3 mb-4">
-                    <span className="px-4 py-2 rounded-full text-xs bg-red-500/20 text-red-400">
-                      {lesson.reportCount} Reports
-                    </span>
-                  </div>
+                        <td className="p-6">
+                          <span className="px-4 py-2 rounded-full text-xs font-medium bg-red-500/20 text-red-400">
+                            {lesson.reportCount} Reports
+                          </span>
+                        </td>
 
-                  <div className="flex gap-3">
-                    <button
-                      onClick={() => setSelectedLesson(lesson)}
-                      className="flex-1 px-4 py-2 rounded-xl bg-white/10"
-                    >
-                      View
-                    </button>
-                    <button
-                      onClick={() => handleIgnore(lesson.lessonId)}
-                      className="flex-1 px-4 py-2 rounded-xl bg-yellow-500/20"
-                    >
-                      Ignore
-                    </button>
-                    <button
-                      onClick={() => handleDelete(lesson.lessonId)}
-                      className="flex-1 px-4 py-2 rounded-xl bg-red-500/20"
-                    >
-                      Delete
-                    </button>
-                  </div>
-                </div>
-              ))}
+                        <td className="p-6">
+                          <div className="flex justify-end gap-3 flex-wrap">
+                            <button
+                              onClick={() => setSelectedLesson(lesson)}
+                              className="p-3 rounded-xl bg-white/10 hover:bg-white/20 transition"
+                            >
+                              <Eye size={18} />
+                            </button>
+
+                            <button
+                              disabled={updatingId === lesson.lessonId}
+                              onClick={() => handleIgnore(lesson.lessonId)}
+                              className="p-3 rounded-xl bg-yellow-500/20 hover:bg-yellow-500/30 transition disabled:opacity-50"
+                            >
+                              <ShieldOff size={18} />
+                            </button>
+
+                            <button
+                              disabled={updatingId === lesson.lessonId}
+                              onClick={() => handleDelete(lesson.lessonId)}
+                              className="p-3 rounded-xl bg-red-500/20 hover:bg-red-500/30 transition disabled:opacity-50"
+                            >
+                              <Trash2 size={18} />
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
           </>
         )}
