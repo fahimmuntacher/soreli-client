@@ -6,35 +6,73 @@ import { useState } from "react";
 import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
 import useAuth from "../../../../Hooks/UseAuth";
 import Loading from "../../../../Components/Loading/Loading";
+import Swal from "sweetalert2";
+import useRole from "../../../../Hooks/useRole";
 
 const MyFavorites = () => {
   const axiosSecure = useAxiosSecure();
   const { user, loading } = useAuth();
+  const { isPremium } = useRole();
 
   const [category, setCategory] = useState("all");
   const [tone, setTone] = useState("all");
-
   const {
     data: favorites = [],
     isLoading,
     refetch,
   } = useQuery({
-    queryKey: ["my-favorites", user?.email],
+    queryKey: ["my-favorites", user?.email, category, tone],
     queryFn: async () => {
-      const res = await axiosSecure.get(
-        `/lessons/favorites?email=${user?.email}`
-      );
+      const res = await axiosSecure.get("/lessons/favorites", {
+        params: {
+          email: user?.email,
+          category,
+          tone,
+        },
+      });
       return res.data;
     },
     enabled: !!user?.email && !loading,
   });
 
+  //   delte favorite handler
   const handleRemove = async (lessonId) => {
-    await axiosSecure.patch(`/lessons/remove-favorite/${lessonId}`, {
-      email: user.email,
+    const result = await Swal.fire({
+      title: "Remove from favorites?",
+      text: "This lesson will be removed from your favorites.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#ef4444",
+      cancelButtonColor: "#6b7280",
+      confirmButtonText: "Yes, remove it",
     });
-    refetch();
+
+    if (!result.isConfirmed) return;
+
+    try {
+      await axiosSecure.patch(`/lessons/remove-favorite/${lessonId}`, {
+        email: user.email,
+      });
+
+      await Swal.fire({
+        title: "Removed!",
+        text: "The lesson has been removed from your favorites.",
+        icon: "success",
+        timer: 1800,
+        showConfirmButton: false,
+      });
+
+      refetch();
+    } catch (error) {
+      Swal.fire({
+        title: "Error",
+        text: "Failed to remove favorite. Please try again.",
+        icon: "error",
+      });
+    }
   };
+
+  // filter favorites based on category and tone
   const filteredFavorites = favorites.filter((lesson) => {
     const categoryMatch = category === "all" || lesson.category === category;
 
@@ -44,9 +82,7 @@ const MyFavorites = () => {
   });
 
   if (loading || isLoading) {
-    return (
-      <Loading></Loading>
-    );
+    return <Loading></Loading>;
   }
 
   return (
@@ -66,11 +102,11 @@ const MyFavorites = () => {
             className="bg-black border border-white/20 rounded-lg px-4 py-2"
           >
             <option value="all">All Categories</option>
-            <option value="life">Personal Growth</option>
-            <option value="career">Career</option>
-            <option value="relationship">Relationship</option>
-            <option value="mindset">Mindset</option>
-            <option value="mistakes">Mistakes Learned</option>
+            <option value="Personal Growth">Personal Growth</option>
+            <option value="Career">Career</option>
+            <option value="Relationship">Relationship</option>
+            <option value="Mindset">Mindset</option>
+            <option value="Mistakes Learned">Mistakes Learned</option>
           </select>
 
           <select
@@ -80,17 +116,42 @@ const MyFavorites = () => {
           >
             {/* "Motivational", "Sad", "Realization", "Gratitude" */}
             <option value="all">All Tones</option>
-            <option value="inspirational">Motivational</option>
-            <option value="emotional">Sad</option>
-            <option value="practical">Realization</option>
-            <option value="practical">Gratitude</option>
+            <option value="Motivational">Motivational</option>
+            <option value="Sad">Sad</option>
+            <option value="Realization">Realization</option>
+            <option value="Gratitude">Gratitude</option>
           </select>
         </div>
 
         {/* Empty State */}
         {filteredFavorites.length === 0 ? (
-          <div className="text-center py-20 text-gray-400">
-            No favorite lessons found.
+          <div className="flex flex-col items-center justify-center text-center py-16 sm:py-24 bg-white/5 border border-white/10 rounded-2xl backdrop-blur-xl">
+            <div className="text-6xl sm:text-8xl mb-8"> </div>
+            <h3 className="text-2xl sm:text-3xl font-semibold mb-4">
+              No favorite lessons yet
+            </h3>
+            <p className="text-gray-400 max-w-md mb-10 px-4">
+              You haven't added any lessons to your favorites. Start exploring
+              and save the ones you love!
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Link
+                to="/lessons"
+                className="px-8 py-4 rounded-xl bg-green-500 hover:bg-green-600 transition font-medium text-lg"
+              >
+                ➕ Create your first favorite lesson
+              </Link>
+
+              {!isPremium && (
+                <Link
+                  to="/upgrade"
+                  className="px-8 py-4 rounded-xl bg-white/10 hover:bg-white/20 transition text-yellow-400 border border-yellow-600/30"
+                >
+                  ⭐ Unlock Premium Features
+                </Link>
+              )}
+            </div>
           </div>
         ) : (
           /* Table */
