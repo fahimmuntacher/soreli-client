@@ -9,11 +9,12 @@ import { motion } from "framer-motion";
 import useAuth from "../../../../Hooks/UseAuth";
 import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
 import Loading from "../../../../Components/Loading/Loading";
+import useRole from "../../../../Hooks/useRole";
 
 const UserProfile = () => {
   const { user: firebaseUser, loading } = useAuth();
   const axiosSecure = useAxiosSecure();
-
+  const { isPremium } = useRole();
   const [editMode, setEditMode] = useState(false);
   const [saving, setSaving] = useState(false);
   const [page, setPage] = useState(1);
@@ -41,7 +42,7 @@ const UserProfile = () => {
   });
 
   const lessons = lessonData?.lessons || [];
-  console.log(lessonData);
+  // console.log(lessonData);
   const totalPages = lessonData?.pagination?.totalPages || 1;
 
   if (loading || lessonsLoading || favoritesLoading) return <Loading />;
@@ -92,7 +93,7 @@ const UserProfile = () => {
         <div className="flex-1 space-y-2">
           <h2 className="text-2xl font-bold flex items-center gap-2">
             {firebaseUser.displayName}
-            {lessonData?.isPremium && (
+            {isPremium && (
               <span className="text-yellow-400 text-sm">⭐ Premium</span>
             )}
           </h2>
