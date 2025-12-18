@@ -13,24 +13,17 @@ const ManageLessons = () => {
 
   // 🔹 filter states
   const [category, setCategory] = useState("all");
-  const [privacy, setPrivacy] = useState("");
   const [reported, setReported] = useState(false);
 
   const { data, refetch, isLoading } = useQuery({
-    queryKey: [
-      "admin-lessons",
-      page,
-      category,
-      privacy,
-      reported,
-    ],
+    queryKey: ["admin-lessons", page, category, reported],
     queryFn: async () => {
       const res = await axiosSecure.get("/admin/lessons", {
         params: {
           page,
           limit,
           category,
-          privacy,
+      
           reported,
         },
       });
@@ -73,9 +66,7 @@ const ManageLessons = () => {
 
   return (
     <div className="p-6 space-y-6">
-      <h1 className="text-3xl font-bold text-white">
-        Manage Lessons
-      </h1>
+      <h1 className="text-3xl font-bold text-white">Manage Lessons</h1>
 
       {/* 🔹 FILTER SECTION */}
       <div className="bg-white/10 backdrop-blur rounded-xl p-4 flex flex-wrap gap-4 items-center">
@@ -88,23 +79,13 @@ const ManageLessons = () => {
           }}
         >
           <option value="all">All Categories</option>
-          <option value="math">Math</option>
-          <option value="science">Science</option>
-          <option value="programming">Programming</option>
+          <option value="Personal Growth">Personal Growth</option>
+          <option value="Career">Career</option>
+          <option value="Relationship">Relationship</option>
+          <option value="Mindset">Mindset</option>
+          <option value="Mistakes Learned">Mistakes Learned</option>
         </select>
 
-        <select
-          className="select select-bordered bg-black/80"
-          value={privacy}
-          onChange={(e) => {
-            setPage(1);
-            setPrivacy(e.target.value);
-          }}
-        >
-          <option value="">All Privacy</option>
-          <option value="public">Public</option>
-          <option value="private">Private</option>
-        </select>
 
         <label className="flex items-center gap-2 text-white">
           <input
@@ -140,23 +121,15 @@ const ManageLessons = () => {
                 <td className="font-semibold">{lesson.title}</td>
                 <td>{lesson.category}</td>
                 <td>
-                  <span className="badge badge-outline">
-                    {lesson.privacy}
-                  </span>
+                  <span className="badge badge-outline">{lesson.privacy}</span>
                 </td>
-                <td className="text-red-400 font-bold">
-                  {lesson.reportCount}
-                </td>
+                <td className="text-red-400 font-bold">{lesson.reportCount}</td>
                 <td className="space-x-1">
                   {lesson.isFeatured && (
-                    <span className="badge badge-success">
-                      Featured
-                    </span>
+                    <span className="badge badge-success">Featured</span>
                   )}
                   {lesson.isReviewed && (
-                    <span className="badge badge-info">
-                      Reviewed
-                    </span>
+                    <span className="badge badge-info">Reviewed</span>
                   )}
                 </td>
                 <td className="space-x-1">
@@ -198,9 +171,7 @@ const ManageLessons = () => {
         {[...Array(totalPages).keys()].map((num) => (
           <button
             key={num}
-            className={`btn btn-sm ${
-              page === num + 1 ? "btn-primary" : ""
-            }`}
+            className={`btn btn-sm ${page === num + 1 ? "btn-primary" : ""}`}
             onClick={() => setPage(num + 1)}
           >
             {num + 1}
