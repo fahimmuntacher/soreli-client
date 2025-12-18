@@ -25,71 +25,55 @@ const Signup = () => {
     formState: { errors },
   } = useForm();
 
-  // const handleImageChange = (e) => {
-  //   if (e.target.files && e.target.files[0]) {
-  //     setProfileImage(URL.createObjectURL(e.target.files[0]));
-  //   }
-  //   reset();
-  // };
+
 
   const handleFirebaseError = (code) => {
-  switch (code) {
-    case "auth/email-already-in-use":
-      return "This email is already registered! Try signing in instead.";
-    case "auth/invalid-email":
-      return "Please enter a valid email address.";
-    case "auth/weak-password":
-      return "Your password is too weak! Use at least 8 characters:";
-    case "auth/operation-not-allowed":
-      return "Email/password sign-in is disabled. Contact admin.";
-    case "auth/network-request-failed":
-      return "Network error! Please check your internet connection.";
-    default:
-      return "Something went wrong! Please try again!";
-  }
-};
-  const onSubmit = (data) => {
-    // console.log("Signup Data:", data);
-    RegisterUser(data.email, data.password)
-      .then(() => {
-        // console.log(res);
-        const userInfo = {
-          email: data?.email,
-          name: data?.fullName,
-          photoURL: data?.photoURL,
-        };
-        axiosSecure.post("/users", userInfo).then((data) => {
-          if (data.data.insertedId) {
-            // add user name and photourl
-            const userProfile = {
-              name: data?.fullName,
-              photoURL: data?.photoURL,
-            };
-            userProfileUpdate(userProfile).then(() => {
-              Swal.fire({
-                title: "Account Created Successfully!",
-                text: "We're happy to have you!",
-                icon: "success",
-                confirmButtonColor: "#008000",
-              });
-              navigate(from, { replace: true });
-            });
-          }
-        });
-        // toast.success("user created successfully")
-      })
-      .catch((err) => {
-        const message = handleFirebaseError(err.code);
-        // console.log(err);
-        Swal.fire({
-          title: "Signup Failed",
-          text: message,
-          icon: "error",
-          confirmButtonColor: "#facc15",
-        });
+    switch (code) {
+      case "auth/email-already-in-use":
+        return "This email is already registered! Try signing in instead.";
+      case "auth/invalid-email":
+        return "Please enter a valid email address.";
+      case "auth/weak-password":
+        return "Your password is too weak! Use at least 8 characters:";
+      case "auth/operation-not-allowed":
+        return "Email/password sign-in is disabled. Contact admin.";
+      case "auth/network-request-failed":
+        return "Network error! Please check your internet connection.";
+      default:
+        return "Something went wrong! Please try again!";
+    }
+  };
+  const onSubmit = async (data) => {
+    try {
+      await RegisterUser(data.email, data.password);
+
+      await axiosSecure.post("/users", {
+        email: data.email,
+        name: data.fullName,
+        photoURL: data.photoURL,
       });
 
-    reset();
+      await userProfileUpdate({
+        displayName: data.fullName,
+        photoURL: data.photoURL,
+      });
+
+      Swal.fire({
+        title: "Account Created Successfully!",
+        icon: "success",
+        confirmButtonColor: "#008000",
+      });
+
+      navigate(from, { replace: true });
+      reset();
+    } catch (err) {
+      const message = handleFirebaseError(err.code);
+      Swal.fire({
+        title: "Signup Failed",
+        text: message,
+        icon: "error",
+      });
+    }
   };
 
   return (

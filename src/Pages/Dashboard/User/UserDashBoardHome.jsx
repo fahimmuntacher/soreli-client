@@ -68,7 +68,7 @@ const UserDashBoardHome = () => {
     }, {})
   );
 
-  console.log(weeklyStats[0]?.lessons);
+  // console.log(weeklyStats[0]?.lessons);
 
   return (
     <div className="text-white space-y-12">
