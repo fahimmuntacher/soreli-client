@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import { Eye, Trash2, ShieldOff, X, AlertTriangle } from "lucide-react";
 import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
+import { Link } from "react-router";
 
 const ReportedLessons = () => {
   const axiosSecure = useAxiosSecure();
@@ -85,8 +86,7 @@ const ReportedLessons = () => {
           </div>
         ) : (
           <>
-
-          {/* table */}
+            {/* table */}
             <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden">
               <div className="overflow-x-auto">
                 <table className="w-full min-w-[720px]">
@@ -105,9 +105,11 @@ const ReportedLessons = () => {
                         className="border-t border-white/10 hover:bg-white/5 transition"
                       >
                         <td className="p-6">
-                          <p className="font-semibold text-lg">
-                            {lesson.title}
-                          </p>
+                          <Link to={`/lessons/${lesson._id}`}>
+                            <p className="font-semibold text-lg hover:text-green-400">
+                              {lesson.title}
+                            </p>
+                          </Link>
                           <p className="text-sm text-gray-400">
                             Author: {lesson.authorEmail}
                           </p>
