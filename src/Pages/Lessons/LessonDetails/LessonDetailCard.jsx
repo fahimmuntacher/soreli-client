@@ -1,7 +1,7 @@
 import { Lock } from "lucide-react";
 import { Link } from "react-router";
 
-const LessonCard = ({ lesson, isLocked, isPremium }) => (
+const LessonDetailCard = ({ lesson, isLocked }) => (
   <div
     className={`rounded-3xl bg-linear-to-br from-white/10 to-white/5
         backdrop-blur-xl border border-white/20 shadow-xl overflow-hidden`}
@@ -45,4 +45,4 @@ const LessonCard = ({ lesson, isLocked, isPremium }) => (
   </div>
 );
 
-export default LessonCard;
+export default LessonDetailCard;
