@@ -68,7 +68,7 @@ const UserDashBoardHome = () => {
     }, {})
   );
 
-  console.log(weeklyStats[0].lessons);
+  console.log(weeklyStats[0]?.lessons);
 
   return (
     <div className="text-white space-y-12">
@@ -102,7 +102,7 @@ const UserDashBoardHome = () => {
         <StatCard
           icon={<BarChart3 />}
           title="This Week"
-          value={weeklyStats[0].lessons || 0}
+          value={weeklyStats[0]?.lessons || 0}
         />
         <StatCard
           icon={<PlusCircle />}

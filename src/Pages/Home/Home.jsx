@@ -3,7 +3,7 @@ import HeroSlider from "./HeroSlider";
 import FeaturedLessons from "./FeaturedLesson";
 import BenefitCards from "./BenefitCards";
 import { Helmet } from "react-helmet";
-
+import TopContributors from "./TopContributor/TopContributor";
 
 const Home = () => {
   return (
@@ -26,7 +26,7 @@ const Home = () => {
         <HeroSlider />
         <FeaturedLessons />
         <BenefitCards />
-        
+        <TopContributors />
       </div>
     </>
   );
