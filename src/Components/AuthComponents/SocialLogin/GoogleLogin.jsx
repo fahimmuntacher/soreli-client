@@ -21,6 +21,7 @@ const GoogleLogin = () => {
           name: res?.user?.displayName,
           photoURL: res?.user?.photoURL,
         };
+        // console.log(userDetails);
 
         axiosInstance.post("/users", userDetails).then(() => {});
 

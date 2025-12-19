@@ -1,16 +1,76 @@
-# React + Vite
+# 🌱 Soreli Life Lessons Sharing Platform
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Soreli is a modern, community-driven platform where users share meaningful life lessons, personal growth stories, and emotional experiences.  
+The platform focuses on **reflection, learning, and self-development**, with strong moderation tools to maintain content quality.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🔗 Live Links
 
-## React Compiler
+- 🌐 **Live Website:** https://soreli.netlify.app/  
+- ⚙️ **Server Repository:** https://github.com/fahimmuntacher/soreli-server.git  
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-## Expanding the ESLint configuration
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## ✨ Features
+
+### 👤 User Features
+- Create, edit, and delete life lessons
+- Like ❤️ and save 🔖 lessons
+- Report 🚩 inappropriate or misleading lessons
+- Public & private lesson visibility
+- User profile with:
+  - Lessons created
+  - Saved lessons
+  - Profile update (name & photo)
+
+---
+
+### ⭐ Featured Lessons
+- Admin-controlled featured lessons
+- Highlighted on the homepage
+- Emotion-focused and category-based discovery
+
+---
+
+### 🛡️ Admin Dashboard
+- Manage all users
+  - Promote / demote admin roles
+  - Search users by email
+  - View total lessons per user
+- Manage lessons
+  - Delete inappropriate lessons
+  - Mark lessons as reviewed
+  - Feature / unfeature lessons
+  - Filter by category, privacy & reported status
+- Reported lessons panel
+  - View report reasons & reporters
+  - Take action (delete / ignore)
+
+---
+
+## 🧠 Tech Stack
+
+### Frontend
+- **React**
+- **React Router**
+- **TanStack React Query**
+- **Tailwind CSS**
+- **DaisyUI**
+- **Framer Motion**
+- **Lucide Icons**
+
+### Backend
+- **Node.js**
+- **Express.js**
+- **MongoDB**
+- **MongoDB Aggregation Pipeline**
+
+### Authentication & Security
+- **Firebase Authentication**
+- **JWT Verification**
+- **Role-based access control (Admin/User)**
+
+---
