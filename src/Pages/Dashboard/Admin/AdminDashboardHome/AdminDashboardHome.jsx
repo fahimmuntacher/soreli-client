@@ -54,6 +54,9 @@ const AdminDashboardHome = () => {
 
   return (
     <div className="text-white space-y-12">
+      <head>
+        <title>Admin Dashboard - Soreli</title>
+      </head>
       {/* ================= HEADER ================= */}
       <div>
         <h1 className="text-3xl font-bold">Admin Overview</h1>

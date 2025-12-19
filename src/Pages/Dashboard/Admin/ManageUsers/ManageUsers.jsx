@@ -44,6 +44,9 @@ const ManageUsers = () => {
 
   return (
     <div className="p-6 space-y-6 text-white">
+      <head>
+        <title>Manage Users - Soreli</title>
+      </head>
       <h1 className="text-3xl font-bold">Manage Users</h1>
 
       {/* Search */}

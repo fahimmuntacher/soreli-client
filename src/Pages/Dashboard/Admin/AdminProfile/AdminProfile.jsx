@@ -61,6 +61,9 @@ const AdminProfile = () => {
 
   return (
     <div className="text-white space-y-10">
+      <head>
+        <title>Admin Profile - Soreli</title>
+      </head>
       {/* ================= PROFILE CARD ================= */}
       <div className="bg-white/5 border border-white/10 rounded-2xl p-6 flex flex-col md:flex-row gap-6">
         {/* Avatar */}

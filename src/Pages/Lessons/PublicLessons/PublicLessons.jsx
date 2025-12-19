@@ -35,6 +35,9 @@ const PublicLessons = () => {
 
   return (
     <div className="pt-28 px-6 max-w-7xl mx-auto">
+      <head>
+        <title>Public Lessons - Soreli</title>
+      </head>
       <h1 className="text-4xl font-bold text-white mb-12 text-center">
         Public Life Lessons
       </h1>

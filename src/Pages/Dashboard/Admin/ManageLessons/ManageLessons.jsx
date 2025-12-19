@@ -66,6 +66,9 @@ const ManageLessons = () => {
 
   return (
     <div className="p-6 space-y-6">
+      <head>
+        <title>Manage Lessons - Soreli</title>
+      </head>
       <h1 className="text-3xl font-bold text-white">Manage Lessons</h1>
 
       {/* 🔹 FILTER SECTION */}

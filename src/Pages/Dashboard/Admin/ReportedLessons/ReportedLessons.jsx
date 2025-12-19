@@ -67,6 +67,9 @@ const ReportedLessons = () => {
 
   return (
     <div className="min-h-screen text-white py-8 px-4 sm:px-6 lg:px-8">
+      <head>
+        <title>Reported Results - Soreli</title>
+      </head>
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center gap-3 mb-8">
           <AlertTriangle className="text-red-400" />

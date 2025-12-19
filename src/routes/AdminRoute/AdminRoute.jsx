@@ -1,6 +1,4 @@
-import React from "react";
-
-import { Navigate, useLocation } from "react-router";
+import { useLocation } from "react-router";
 import useAuth from "../../Hooks/UseAuth";
 import useRole from "../../Hooks/useRole";
 import Loading from "../../Components/Loading/Loading";
@@ -12,17 +10,17 @@ const AdminRoutes = ({ children }) => {
   const location = useLocation();
 
   if (loading || roleLoading) {
-    return <Loading></Loading>;
+    return <Loading />;
   }
 
-  
 
   if (!user) {
-    return <Navigate to="/registration" state={{ from: location }} replace />;
+    return <Navigate to="/signin" state={{ from: location }} replace />;
   }
-  
+
+
   if (role !== "admin") {
-    return <Forbidden></Forbidden>;
+    return <Forbidden />;
   }
 
   return children;

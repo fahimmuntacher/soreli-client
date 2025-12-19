@@ -28,6 +28,7 @@ import Checkout from "../Pages/Upgrade/Checkout/Checkout";
 import CancelCheckOut from "../Pages/Upgrade/Checkout/CancelCheckout/CancelCheckOut";
 import PremiumRote from "./PremiumRoute/PremiumRoute";
 import LessonDetails from "../Pages/Lessons/LessonDetails/LessonDetails";
+import ErrorPage from "../Components/ErrorPage/ErrorPage";
 
 const AppRoute = createBrowserRouter([
   // -----------------------------------------
@@ -51,15 +52,29 @@ const AppRoute = createBrowserRouter([
       },
       {
         path: "/upgrade",
-        element: <PrivateRoute><PremiumRote><Upgrade></Upgrade></PremiumRote></PrivateRoute>,
+        element: (
+          <PrivateRoute>
+            <PremiumRote>
+              <Upgrade></Upgrade>
+            </PremiumRote>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/checkout/success",
-        element: <PrivateRoute><Checkout></Checkout></PrivateRoute>,
+        element: (
+          <PrivateRoute>
+            <Checkout></Checkout>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/checkout/cancel",
-        element: <PrivateRoute><CancelCheckOut></CancelCheckOut></PrivateRoute>,
+        element: (
+          <PrivateRoute>
+            <CancelCheckOut></CancelCheckOut>
+          </PrivateRoute>
+        ),
       },
     ],
   },
@@ -96,11 +111,46 @@ const AppRoute = createBrowserRouter([
       // ====================
       // USER DASHBOARD ROUTES
       // ====================
-      { path: "user", element: <UserRoutes><UserDashBoardHome></UserDashBoardHome></UserRoutes> },
-      { path: "add-lesson", element: <UserRoutes><AddLesson></AddLesson></UserRoutes> },
-      { path: "my-lessons", element: <UserRoutes><MyLesson></MyLesson></UserRoutes> },
-      { path: "my-favorites", element: <UserRoutes><MyFavorites></MyFavorites></UserRoutes> },
-      { path: "profile", element: <UserRoutes><UserProfile></UserProfile></UserRoutes> },
+      {
+        path: "user",
+        element: (
+          <UserRoutes>
+            <UserDashBoardHome></UserDashBoardHome>
+          </UserRoutes>
+        ),
+      },
+      {
+        path: "add-lesson",
+        element: (
+          <UserRoutes>
+            <AddLesson></AddLesson>
+          </UserRoutes>
+        ),
+      },
+      {
+        path: "my-lessons",
+        element: (
+          <UserRoutes>
+            <MyLesson></MyLesson>
+          </UserRoutes>
+        ),
+      },
+      {
+        path: "my-favorites",
+        element: (
+          <UserRoutes>
+            <MyFavorites></MyFavorites>
+          </UserRoutes>
+        ),
+      },
+      {
+        path: "profile",
+        element: (
+          <UserRoutes>
+            <UserProfile></UserProfile>
+          </UserRoutes>
+        ),
+      },
 
       // ====================
       // UPDATE LESSON
@@ -151,6 +201,11 @@ const AppRoute = createBrowserRouter([
         ),
       },
     ],
+  },
+
+  {
+    path: "*",
+    element: <ErrorPage />,
   },
 ]);
 
