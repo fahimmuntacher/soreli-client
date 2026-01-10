@@ -34,7 +34,7 @@ const benefits = [
 
 const BenefitCards = () => {
   return (
-    <section className="max-w-7xl mx-auto py-20 px-5">
+    <section className="max-w-7xl mx-auto px-5">
       {/* Section Header */}
       <div className="text-center mb-16">
         <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">

@@ -4,6 +4,11 @@ import FeaturedLessons from "./FeaturedLesson";
 import BenefitCards from "./BenefitCards";
 import { Helmet } from "react-helmet";
 import TopContributors from "./TopContributor/TopContributor";
+import HowItWorks from "./HowItWorks";
+import RecentLessons from "./RecentLessons";
+import Categories from "./Categories";
+import Testimonials from "./Testimonials";
+import NewsletterCTA from "./NewsletterCTA";
 
 const Home = () => {
   return (
@@ -22,11 +27,31 @@ const Home = () => {
         <meta property="og:type" content="website" />
       </Helmet>
 
-      <div>
+      <div className="flex flex-col gap-30 mb-20">
         <HeroSlider />
+
+        {/* Featured lessons + quick benefits */}
         <FeaturedLessons />
+
         <BenefitCards />
+
+        {/* How it works */}
+        <HowItWorks />
+
+        {/* Stats (replaces recent lessons) */}
+        <RecentLessons />
+
+        {/* Categories */}
+        <Categories />
+
+        {/* Testimonials */}
+        <Testimonials />
+
+        {/* Top contributors */}
         <TopContributors />
+
+        {/* Newsletter CTA */}
+        <NewsletterCTA />
       </div>
     </>
   );

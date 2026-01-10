@@ -15,7 +15,7 @@ const FeaturedLessons = () => {
   });
 
   return (
-    <section className="py-20">
+    <section className="flex flex-col">
       <div className="max-w-7xl mx-auto px-5">
         {/* Title */}
         <div className="text-center mb-16">

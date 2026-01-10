@@ -51,7 +51,7 @@ const HeroSlider = () => {
   }, [emblaApi, onSelect]);
 
   return (
-    <div className="relative w-full h-[90vh] sm:h-[80vh] overflow-hidden flex justify-center items-cente sm:pt-0 pt-15">
+    <div className="relative w-full h-[70vh] sm:h-[80vh] overflow-hidden flex justify-center items-cente sm:pt-0 pt-15">
       
       {/* Embla viewport */}
       <div className="h-[80vh] w-full max-w-7xl mx-auto overflow-hidden" ref={emblaRef}>
