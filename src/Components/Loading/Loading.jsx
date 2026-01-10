@@ -1,35 +1,11 @@
 import React from "react";
-import { motion } from "framer-motion";
+import GridSkeleton from "../Skeletons/GridSkeleton";
 
-const Loading = () => {
+const Loading = ({ type = "grid", cols = 4, rows = 4 }) => {
   return (
-    <div className="w-full h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900">
-      {/* Outer rotating ring */}
-      <motion.div
-        className="w-20 h-20 rounded-full border-4 border-t-pink-500 border-r-yellow-400 border-b-green-400 border-l-blue-500"
-        animate={{ rotate: 360 }}
-        transition={{
-          repeat: Infinity,
-          duration: 1.2,
-          ease: "linear",
-        }}
-      />
-      {/* Inner bouncing dots */}
-      <div className="absolute flex space-x-3">
-        {[0, 1, 2].map((i) => (
-          <motion.span
-            key={i}
-            className="w-4 h-4 rounded-full bg-gradient-to-r from-pink-500 via-yellow-400 to-green-400"
-            animate={{
-              y: [0, -15, 0],
-            }}
-            transition={{
-              repeat: Infinity,
-              duration: 0.6,
-              delay: i * 0.2,
-            }}
-          />
-        ))}
+    <div className="w-full min-h-screen bg-gradient-to-b from-slate-900 via-slate-900 to-slate-800 py-10">
+      <div className="max-w-7xl mx-auto px-5">
+        <GridSkeleton cols={cols} rows={rows} />
       </div>
     </div>
   );

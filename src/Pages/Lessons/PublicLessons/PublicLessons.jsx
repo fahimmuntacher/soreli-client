@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { Lock } from "lucide-react";
 import { Link } from "react-router";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
-import Loading from "../../../Components/Loading/Loading";
+import GridSkeleton from "../../../Components/Skeletons/GridSkeleton";
 import { useState } from "react";
 import useRole from "../../../Hooks/useRole";
 
@@ -31,7 +31,7 @@ const PublicLessons = () => {
   const lessons = data?.lessons || [];
   const totalPages = data?.totalPages || 1;
 
-  if (isLoading) return <Loading />;
+  if (isLoading) return <GridSkeleton cols={3} rows={2} />;
 
   return (
     <div className="pt-28 px-6 max-w-7xl mx-auto">

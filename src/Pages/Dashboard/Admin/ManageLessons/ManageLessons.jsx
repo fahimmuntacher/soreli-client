@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
-import Loading from "../../../../Components/Loading/Loading";
+import TableSkeleton from "../../../../Components/Skeletons/TableSkeleton";
 
 const ManageLessons = () => {
   const axiosSecure = useAxiosSecure();
@@ -32,6 +32,8 @@ const ManageLessons = () => {
     keepPreviousData: true,
   });
 
+  const queryClient = useQueryClient();
+
   const totalPages = Math.ceil((data?.total || 0) / limit);
 
   // 🔹 actions
@@ -45,24 +47,91 @@ const ManageLessons = () => {
       confirmButtonText: "Delete",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        await axiosSecure.delete(`/admin/lessons/${id}`);
-        refetch();
-        Swal.fire("Deleted!", "Lesson removed.", "success");
+        setUpdatingId(id);
+        try {
+          await axiosSecure.delete(`/admin/lessons/${id}`);
+          await refetch();
+          Swal.fire("Deleted!", "Lesson removed.", "success");
+        } catch (err) {
+          Swal.fire("Error", "Failed to delete lesson.", "error");
+        } finally {
+          setUpdatingId(null);
+        }
       }
     });
   };
 
-  const handleFeature = async (id) => {
-    await axiosSecure.patch(`/admin/lessons/${id}/feature`);
-    refetch();
+  const [updatingId, setUpdatingId] = useState(null);
+
+  const handleFeature = async (id, currentFeatured) => {
+    setUpdatingId(id);
+    // Optimistically update cache so UI reflects change immediately
+    const cacheKey = ["admin-lessons", page, category, reported];
+    const previous = queryClient.getQueryData(cacheKey);
+
+    queryClient.setQueryData(cacheKey, (old) => {
+      if (!old) return old;
+      return {
+        ...old,
+        lessons: (old.lessons || []).map((l) =>
+          l._id === id ? { ...l, isFeatured: !currentFeatured } : l
+        ),
+      };
+    });
+
+    try {
+      await axiosSecure.patch(`/admin/lessons/${id}/feature`, {
+        featured: !currentFeatured,
+      });
+      await refetch();
+      Swal.fire(
+        "Updated",
+        `Lesson has been ${currentFeatured ? "removed from" : "marked as"} featured.`,
+        "success"
+      );
+    } catch (err) {
+      // rollback
+      if (previous) queryClient.setQueryData(cacheKey, previous);
+      Swal.fire("Error", "Failed to update featured status.", "error");
+    } finally {
+      setUpdatingId(null);
+    }
   };
 
-  const handleReview = async (id) => {
-    await axiosSecure.patch(`/admin/lessons/${id}/review`);
-    refetch();
+  const handleReview = async (id, currentReviewed) => {
+    setUpdatingId(id);
+    const cacheKey = ["admin-lessons", page, category, reported];
+    const previous = queryClient.getQueryData(cacheKey);
+
+    queryClient.setQueryData(cacheKey, (old) => {
+      if (!old) return old;
+      return {
+        ...old,
+        lessons: (old.lessons || []).map((l) =>
+          l._id === id ? { ...l, isReviewed: !currentReviewed } : l
+        ),
+      };
+    });
+
+    try {
+      await axiosSecure.patch(`/admin/lessons/${id}/review`, {
+        reviewed: !currentReviewed,
+      });
+      await refetch();
+      Swal.fire(
+        "Updated",
+        `Lesson review status updated to ${!currentReviewed}.`,
+        "success"
+      );
+    } catch (err) {
+      if (previous) queryClient.setQueryData(cacheKey, previous);
+      Swal.fire("Error", "Failed to update review status.", "error");
+    } finally {
+      setUpdatingId(null);
+    }
   };
 
-  if (isLoading) return <Loading />;
+  if (isLoading) return <TableSkeleton rows={8} />;
 
   return (
     <div className="p-6 space-y-6">
@@ -119,7 +188,7 @@ const ManageLessons = () => {
           </thead>
 
           <tbody>
-            {data?.lessons.map((lesson) => (
+            {(data?.lessons || []).map((lesson) => (
               <tr key={lesson._id} className="hover:bg-white/5">
                 <td className="font-semibold">{lesson.title}</td>
                 <td>{lesson.category}</td>
@@ -137,22 +206,27 @@ const ManageLessons = () => {
                 </td>
                 <td className="space-x-1">
                   <button
-                    className="btn btn-xs btn-info"
-                    onClick={() => handleFeature(lesson._id)}
+                    className={`btn btn-xs ${lesson.isFeatured ? "btn-success" : "btn-info"}`}
+                    onClick={() => handleFeature(lesson._id, lesson.isFeatured)}
+                    disabled={updatingId === lesson._id}
                   >
-                    Feature
+                    {updatingId === lesson._id ? "..." : lesson.isFeatured ? "Unfeature" : "Feature"}
                   </button>
+
                   <button
-                    className="btn btn-xs btn-warning"
-                    onClick={() => handleReview(lesson._id)}
+                    className={`btn btn-xs ${lesson.isReviewed ? "btn-primary" : "btn-warning"}`}
+                    onClick={() => handleReview(lesson._id, lesson.isReviewed)}
+                    disabled={updatingId === lesson._id}
                   >
-                    Review
+                    {updatingId === lesson._id ? "..." : lesson.isReviewed ? "Unreview" : "Review"}
                   </button>
+
                   <button
                     className="btn btn-xs btn-error"
                     onClick={() => handleDelete(lesson._id)}
+                    disabled={updatingId === lesson._id}
                   >
-                    Delete
+                    {updatingId === lesson._id ? "..." : "Delete"}
                   </button>
                 </td>
               </tr>

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
-import Loading from "../../../../Components/Loading/Loading";
+import TableSkeleton from "../../../../Components/Skeletons/TableSkeleton";
 import { ShieldCheck, ShieldOff, Trash2, Search } from "lucide-react";
 import { motion } from "framer-motion";
 
@@ -40,7 +40,7 @@ const ManageUsers = () => {
     }
   };
 
-  if (isLoading) return <Loading />;
+  if (isLoading) return <TableSkeleton rows={8} />;
 
   return (
     <div className="p-6 space-y-6 text-white">

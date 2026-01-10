@@ -41,7 +41,7 @@ const About = () => {
         />
       </Helmet>
 
-      <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-900 to-slate-800">
+      <div className="min-h-screen">
         {/* Hero Section */}
         <section className="max-w-7xl mx-auto px-5 pt-32 pb-20">
           <motion.div

@@ -4,6 +4,7 @@ import Swal from "sweetalert2";
 import { Eye, Trash2, ShieldOff, X, AlertTriangle } from "lucide-react";
 import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
 import { Link } from "react-router";
+import TableSkeleton from "../../../../Components/Skeletons/TableSkeleton";
 
 const ReportedLessons = () => {
   const axiosSecure = useAxiosSecure();
@@ -78,9 +79,7 @@ const ReportedLessons = () => {
 
         {/* EMPTY / LOADING */}
         {isLoading ? (
-          <div className="text-center py-24 text-gray-400">
-            Loading reports...
-          </div>
+          <TableSkeleton rows={5} />
         ) : lessons.length === 0 ? (
           <div className="flex flex-col items-center justify-center text-center py-24 bg-white/5 border border-white/10 rounded-2xl backdrop-blur-xl">
             <div className="text-7xl mb-6">🎉</div>
