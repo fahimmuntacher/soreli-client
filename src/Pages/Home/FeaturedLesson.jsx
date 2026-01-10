@@ -1,12 +1,9 @@
-import React, { useState } from "react";
-import { motion } from "framer-motion";
 import { Sparkles, Star, Circle } from "lucide-react";
 import useAxios from "../../Hooks/useAxios";
 import { useQuery } from "@tanstack/react-query";
 import LessonCard from "../../Components/Shared/LessonCard";
 
 const FeaturedLessons = () => {
-
   const axios = useAxios();
 
   const { data: featuredLessons = [] } = useQuery({

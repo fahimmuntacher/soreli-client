@@ -3,12 +3,10 @@ import useAuth from "./UseAuth";
 import useAxios from "./useAxios";
 
 const useRole = () => {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
   const axiosInstance = useAxios();
 
-  const {
-    data,
-    isLoading: reloading,
+  const { data, isLoading: reloading,
   } = useQuery({
     queryKey: ["user-role-premium", user?.email],
     enabled: !!user?.email, 
@@ -20,7 +18,7 @@ const useRole = () => {
 
   const role = data?.role;
   const isPremium = data?.isPremium || false; 
-  return { reloading, role, isPremium };
-};
+  return { reloading, loading, role, isPremium };
+}
 
 export default useRole;

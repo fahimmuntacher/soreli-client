@@ -29,6 +29,7 @@ import CancelCheckOut from "../Pages/Upgrade/Checkout/CancelCheckout/CancelCheck
 import PremiumRote from "./PremiumRoute/PremiumRoute";
 import LessonDetails from "../Pages/Lessons/LessonDetails/LessonDetails";
 import ErrorPage from "../Components/ErrorPage/ErrorPage";
+import About from "../Pages/About/About";
 
 const AppRoute = createBrowserRouter([
   // -----------------------------------------
@@ -45,6 +46,10 @@ const AppRoute = createBrowserRouter([
       {
         path: "/lessons",
         element: <PublicLessons></PublicLessons>,
+      },
+      {
+        path: "/about",
+        element: <About></About>,
       },
       {
         path: "/lessons/:id",

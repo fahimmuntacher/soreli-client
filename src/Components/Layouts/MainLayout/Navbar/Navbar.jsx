@@ -46,6 +46,7 @@ const Navbar = () => {
   const navItems = [
     { name: "Home", path: "/" },
     { name: "Public Lessons", path: "/lessons" },
+    { name: "About", path: "/about" },
   ];
 
   const userMenu = [
