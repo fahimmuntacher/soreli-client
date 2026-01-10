@@ -22,7 +22,7 @@ const TopContributors = () => {
   const topOne = contributors[0];
 
   return (
-    <div className="max-w-7xl mx-auto">
+    <section className="w-full max-w-7xl mx-auto px-5 flex flex-col">
       {/* SECTION TITLE */}
       <h2 className="flex items-center justify-center gap-2  text-white text-4xl my-16 font-bold">
         <Crown className=" text-yellow-400" size={35} />
@@ -71,7 +71,7 @@ const TopContributors = () => {
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

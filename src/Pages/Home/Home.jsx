@@ -27,7 +27,7 @@ const Home = () => {
         <meta property="og:type" content="website" />
       </Helmet>
 
-      <div className="flex flex-col gap-30 mb-20">
+      <div className="flex flex-col space-y-25 mb-20">
         <HeroSlider />
 
         {/* Featured lessons + quick benefits */}

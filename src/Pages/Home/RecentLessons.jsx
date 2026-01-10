@@ -80,8 +80,8 @@ const RecentLessons = () => {
   const s = stats || sample;
 
   return (
-    <section className="max-w-7xl mx-auto px-5 flex flex-col">
-      <div className="text-center">
+    <section className="w-full max-w-7xl mx-auto px-5 flex flex-col">
+      <div className="text-center mb-6">
         <h2 className="text-3xl md:text-4xl font-bold text-white">Platform Statistics</h2>
         <p className="text-gray-300 mt-2 max-w-2xl mx-auto">High-level metrics to show community growth and activity.</p>
       </div>

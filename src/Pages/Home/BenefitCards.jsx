@@ -34,10 +34,10 @@ const benefits = [
 
 const BenefitCards = () => {
   return (
-    <section className="max-w-7xl mx-auto px-5">
+    <section className="w-full max-w-7xl mx-auto px-5">
       {/* Section Header */}
       <div className="text-center mb-16">
-        <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+        <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
           Why Learning From Life Matters
         </h2>
         <p className="text-gray-300 text-lg max-w-2xl mx-auto leading-relaxed">
